@@ -25,6 +25,13 @@ public class EntityDAO<T> {
 		session.close();
 		return object;
 	}
+	
+	public T findById(Class<T> clazz, Long id) {
+		Session session = mSFactory.openSession();
+		T object = session.get(clazz, id);
+		session.close();
+		return object;
+	}
 
 	public void update(T object) {
 		Session session = mSFactory.openSession();

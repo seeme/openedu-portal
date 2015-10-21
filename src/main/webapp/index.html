@@ -12,7 +12,7 @@
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="bootstrap-3.3.5/css/bootstrap-theme.min.css">
-	
+
 <style>
 body {
 	padding-top: 70px;
@@ -74,6 +74,9 @@ body {
 <script src="script/jssor.slider.min.js"></script>
 <script>
 	jQuery(document).ready(function($) {
+
+		$("body").hide();
+
 		var options = {
 			$AutoPlay : true
 		};
@@ -85,22 +88,22 @@ body {
 			dataType : "json",
 			success : function(data) {
 				for ( var i = 0; i < data.length; i++ ) {
-					if(data[i].available == 'Current')
-						addCurrentAvailableCourse( data[i]);
-					//alert("SUCCESS!!! - " + data[i].courseName);
+					//if(data[i].available == 'Current')
+					//	addCurrentAvailableCourse( data[i]);
+					addCourse(data[i])
 				}
-
+				$("body").show();
 			},
 
 			error : function() {
 				alert("ERROR!!!");
 			}
 		});
-		
-		function addCurrentAvailableCourse(data)
+
+		function addCourse(data)
 		{
 			//alert(data.courseOffer);
-			var inner = '<div class="col-md-3">' + 
+			var inner = '<div class="col-md-3">' +
 				'<div class="course-box">'  +
 			    '<div class="course-desc course-univ">' + data.courseOffer + '</div>' +
 			    '<div>' +
@@ -109,11 +112,27 @@ body {
 			    '<div class="course-desc course-name">' + data.courseName + '</div>'  +
 			    '<div class="course-desc">' + data.courseDuration + '</div>' +
 			    '<div class="course-desc">' +
-				'<span class="course-category-span">' + data.courseCategory+ '</span>' + 
+				'<span class="course-category-span">' + data.courseCategory+ '</span>' +
 			    '</div>' +
 		        '</div>' +
 	            '</div>';
-			$("#avail-current").prepend(inner);
+			//$("#avail-current").append(inner);
+			appendCourse(inner, data.available, data.mobile);
+		}
+
+		function appendCourse(inner, available, mobile){
+			if(available == 'Current' && !mobile){
+					$("#avail-current").append(inner);
+			}
+			if((available == 'Current' || available== 'Self') && mobile){
+				$("#avail-mobile").append(inner);
+			}
+			if (available == 'Soon') {
+					$("#avail-soon").append(inner);
+			}
+			if (available == 'Self') {
+					$("#avail-self").append(inner);
+			}
 		}
 
 	});
@@ -167,19 +186,6 @@ body {
 			<div class="col-md-10">
 				<div id="slider1_container"
 					style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
-
-					<!-- Loading Screen -->
-					<!--<div u="loading" style="position: absolute; top: 0px; left: 0px;">
-        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-
-        background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
-      </div>
-      <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
-
-      top: 0px; left: 0px;width: 100%;height:100%;">
-    </div>
-  </div>-->
-
 					<!-- Slides Container -->
 					<div u="slides"
 						style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px; overflow: hidden;">
@@ -200,303 +206,25 @@ body {
 		</div>
 
 		<h3 class="course-available">開課中課程</h3>
-
 		<div class="row avail-separator" id="avail-current">
-			<div class="col-md-3">
-				<div class="course-box ">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-從車庫-150dpi-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">從車庫到金庫 – 看見台灣企業生命力</div>
-					<div class="course-desc">2015/09/23~2015/12/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">社會科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040925-五門課程網站banner-05-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">大學普通物理實驗 – 手作坊</div>
-					<div class="course-desc">2015/09/28~2016/01/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-空間-03-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">空間資訊與智慧生活</div>
-					<div class="course-desc">2015/10/05~2015/12/07</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立中央大學</div>
-					<div>
-						<img src="img/courses/ncux-mo0011-201509-370x278.png"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">臺灣客家文化導論 – 臺灣的客家話與客家文學</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
+			<!- list current courses --->
 		</div>
 
 
 		<h3 class="course-available">即將開課</h3>
-
-		<div class="row avail-separator">
-			<div class="col-md-3">
-				<div class="course-box ">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-專案-02-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">讓老闆不得不重用你 – 正在崛起的「專案管理」</div>
-					<div class="course-desc">2015/11/02~2015/12/27</div>
-					<div class="course-desc">
-						<span class="course-category-span">社會科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立中央大學</div>
-					<div>
-						<img src="img/courses/ncux-mo0012-201510-760x590-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">線性代數(一)</div>
-					<div class="course-desc">2015/09/28~2016/01/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立中央大學</div>
-					<div>
-						<img src="img/courses/MO0013-370x278.png" class="img-responsive">
-					</div>
-					<div class="course-desc course-name">普通化學—原子結構與原子間的鍵結</div>
-					<div class="course-desc">2015/10/05~2015/12/07</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立中央大學</div>
-					<div>
-						<img src="img/courses/ncux-mo0011-201509-370x278.png"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">臺灣客家文化導論</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立高雄餐旅大學</div>
-					<div>
-						<img src="img/courses/高餐-糕餅banner-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">台灣傳統糕餅文化與製作、創新</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立雲林科技大學</div>
-					<div>
-						<img src="img/courses/edx平臺-01-370x278.png" class="img-responsive">
-					</div>
-					<div class="course-desc course-name">大學生的必修學分-情感教育</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-九宮格-07-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">創業九宮格</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">創業九宮格</div>
-					<div>
-						<img src="img/courses/1040914-併軌-08-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">併軌 – 發現社會企業</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
+		<div class="row avail-separator" id="avail-soon">
+		<!-- list course comming soon-->
 		</div>
 
 
 		<h3 class="course-available">開課中行動課程</h3>
-
-		<div class="row avail-separator">
-			<div class="col-md-3">
-				<div class="course-box ">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-從車庫-150dpi-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">從車庫到金庫 – 看見台灣企業生命力</div>
-					<div class="course-desc">2015/09/23~2015/12/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">社會科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040925-五門課程網站banner-05-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">大學普通物理實驗 – 手作坊</div>
-					<div class="course-desc">2015/09/28~2016/01/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-空間-03-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">空間資訊與智慧生活</div>
-					<div class="course-desc">2015/10/05~2015/12/07</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立中央大學</div>
-					<div>
-						<img src="img/courses/ncux-mo0011-201509-370x278.png"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">臺灣客家文化導論 – 臺灣的客家話與客家文學</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
+		<div class="row avail-separator" id="avail-mobile">
+			<!-- list courses for mobile devices -->
 		</div>
 
 		<h3 class="course-available">自學課程</h3>
-
-		<div class="row avail-separator">
-			<div class="col-md-3">
-				<div class="course-box ">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-從車庫-150dpi-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">從車庫到金庫 – 看見台灣企業生命力</div>
-					<div class="course-desc">2015/09/23~2015/12/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">社會科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040925-五門課程網站banner-05-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">大學普通物理實驗 – 手作坊</div>
-					<div class="course-desc">2015/09/28~2016/01/31</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">逢甲大學</div>
-					<div>
-						<img src="img/courses/1040914-空間-03-370x278.jpg"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">空間資訊與智慧生活</div>
-					<div class="course-desc">2015/10/05~2015/12/07</div>
-					<div class="course-desc">
-						<span class="course-category-span">自然與應用科學</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="course-box">
-					<div class="course-desc course-univ">國立中央大學</div>
-					<div>
-						<img src="img/courses/ncux-mo0011-201509-370x278.png"
-							class="img-responsive">
-					</div>
-					<div class="course-desc course-name">臺灣客家文化導論 – 臺灣的客家話與客家文學</div>
-					<div class="course-desc">2015/09/21~2015/11/01</div>
-					<div class="course-desc">
-						<span class="course-category-span">人文藝術</span>
-					</div>
-				</div>
-			</div>
+		<div class="row avail-separator" id="avail-self">
+			<!-- list self-learnign courses -->
 		</div>
 
 	</div>

@@ -15,6 +15,8 @@ public class CourseShortInfoDto {
 	private String courseCategory;
 	
 	private String thumbURL;
+	
+	private boolean mobile;
 
 	public String getId() {
 		return id;
@@ -70,5 +72,13 @@ public class CourseShortInfoDto {
 
 	public void setThumbURL(String thumbURL) {
 		this.thumbURL = thumbURL;
+	}
+
+	public boolean isMobile() {
+		return mobile;
+	}
+
+	public void setMobile(boolean mobile) {
+		this.mobile = mobile;
 	}
 }

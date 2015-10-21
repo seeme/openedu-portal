@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +18,7 @@ import org.apache.commons.collections.CollectionUtils;
 import fcu.openedu.domain.Category;
 import fcu.openedu.domain.Course;
 import fcu.openedu.domain.School;
+import fcu.openedu.portal.domain.CourseCompleteInfoDto;
 import fcu.openedu.portal.domain.CourseShortInfoDto;
 import fcu.openedu.portal.persist.EntityDAO;
 import jersey.repackaged.com.google.common.collect.Lists;
@@ -39,11 +41,24 @@ public class CourseService {
 	@Path("/listShortInfo")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response  getCourseBriefInfoWithThumb()
+	public Response  getCourseShortInfo()
 	{
 		List<CourseShortInfoDto> ls = getAllCourses();// getTestCourses();
 		Response rs = Response.ok().entity(new GenericEntity<List<CourseShortInfoDto>>(ls) {}).build();
 		return rs;
+	}
+	
+	@Path("/{id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public CourseCompleteInfoDto getCourseInfo(@PathParam("id") long  id)
+	{
+		CourseCompleteInfoDto course = new CourseCompleteInfoDto();
+		Course mCourse =mCourseDao.findById(Course.class, Long.valueOf(id));
+		course.setName(mCourse.getName());
+		course.setDescIntro(mCourse.getDescription().getIntro());
+		course.setDescObjective(mCourse.getDescription().getObjective());
+		return course;
 	}
 	
 	private List<CourseShortInfoDto> getAllCourses()
@@ -61,6 +76,7 @@ public class CourseService {
 			aDto.setCourseCategory(getCategories(course));
 			aDto.setId(String.valueOf(course.getId()));
 			aDto.setThumbURL(course.getThumbURL());
+			aDto.setMobile(course.isIsMobile());
 			lsCourses.add(aDto);
 		}
 		
