@@ -91,7 +91,8 @@ public class Course {
 	 * 
 	 * @generated
 	 */
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Instructor> instructor = new ArrayList<Instructor>();
 
 	/**

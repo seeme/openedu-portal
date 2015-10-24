@@ -1,8 +1,7 @@
 package fcu.openedu.portal.domain;
 
 import java.io.Serializable;
-
-import fcu.openedu.domain.Description;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class CourseCompleteInfoDto implements Serializable {
@@ -13,7 +12,7 @@ public class CourseCompleteInfoDto implements Serializable {
 	private String availability = null;
 	private String startDate = null;
 	private String endData = null;
-    private String offesr;;
+    private String offers;
 	private long id = 0;
 	private String categories ;
 	private int length = 0;
@@ -24,6 +23,7 @@ public class CourseCompleteInfoDto implements Serializable {
 	private String descSchedule;
 	private String descAssess;
 	private String descPrereq;
+	private List<InstructorDto> instructors;
 	
 	private String videoURL = null;
 	private String link = "";
@@ -63,11 +63,11 @@ public class CourseCompleteInfoDto implements Serializable {
 	public void setEndData(String endData) {
 		this.endData = endData;
 	}
-	public String getOffesr() {
-		return offesr;
+	public String getOffers() {
+		return offers;
 	}
-	public void setOffesr(String offesr) {
-		this.offesr = offesr;
+	public void setOffers(String offers) {
+		this.offers = offers;
 	}
 	public long getId() {
 		return id;
@@ -140,5 +140,11 @@ public class CourseCompleteInfoDto implements Serializable {
 	}
 	public void setLink(String link) {
 		this.link = link;
+	}
+	public List<InstructorDto> getInstructors() {
+		return instructors;
+	}
+	public void setInstructors(List<InstructorDto> instructors) {
+		this.instructors = instructors;
 	}
 }

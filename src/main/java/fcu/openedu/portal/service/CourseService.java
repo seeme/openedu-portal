@@ -17,9 +17,11 @@ import org.apache.commons.collections.CollectionUtils;
 
 import fcu.openedu.domain.Category;
 import fcu.openedu.domain.Course;
+import fcu.openedu.domain.Instructor;
 import fcu.openedu.domain.School;
 import fcu.openedu.portal.domain.CourseCompleteInfoDto;
 import fcu.openedu.portal.domain.CourseShortInfoDto;
+import fcu.openedu.portal.domain.InstructorDto;
 import fcu.openedu.portal.persist.EntityDAO;
 import jersey.repackaged.com.google.common.collect.Lists;
 
@@ -53,13 +55,64 @@ public class CourseService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public CourseCompleteInfoDto getCourseInfo(@PathParam("id") long  id)
 	{
-		CourseCompleteInfoDto course = new CourseCompleteInfoDto();
+		CourseCompleteInfoDto dCourse = new CourseCompleteInfoDto();
 		Course mCourse =mCourseDao.findById(Course.class, Long.valueOf(id));
-		course.setName(mCourse.getName());
-		course.setDescIntro(mCourse.getDescription().getIntro());
-		course.setDescObjective(mCourse.getDescription().getObjective());
-		return course;
+		dCourse.setName(mCourse.getName());
+		dCourse.setDescIntro(mCourse.getDescription().getIntro());
+		dCourse.setDescObjective(mCourse.getDescription().getObjective());
+		dCourse.setDescTarget(mCourse.getDescription().getTarget());
+		dCourse.setDescCharact(mCourse.getDescription().getCharacteristic());
+		dCourse.setDescSchedule(mCourse.getDescription().getSchedule());
+		dCourse.setDescAssess(mCourse.getDescription().getAssessment());
+		dCourse.setDescPrereq(mCourse.getDescription().getPrerequisite());
+		dCourse.setOffers(getOffers(mCourse));
+		dCourse.setCategories(getCategories(mCourse));
+		dCourse.setCid(mCourse.getCid());
+		dCourse.setAvailability(mCourse.getAvailability().getName());
+		if(mCourse.getStartDate() != null)
+			dCourse.setStartDate(mDateFormat.format(mCourse.getStartDate()));
+		dCourse.setLink(mCourse.getLink());
+		dCourse.setVideoURL(mCourse.getVideoURL());
+		dCourse.setInstructors(getInstructors(mCourse));
+		return dCourse;
 	}
+	
+	private List<InstructorDto> getInstructors(Course mCourse)
+	{
+		List<InstructorDto>lsInstructors = Lists.newArrayList();
+		
+		for(Instructor ist: mCourse.getInstructor())
+		{
+			InstructorDto dIst = new InstructorDto();
+			dIst.setDescription(ist.getDescription());
+			dIst.setEmail(ist.getEmail());
+			dIst.setId(ist.getId());
+			dIst.setName(ist.getName());
+			dIst.setPictureURL(ist.getPictureURL());
+			dIst.setPosition(ist.getPosition());
+			dIst.setSchools(getInstructorFrom(ist));
+			lsInstructors.add(dIst);
+		}
+		return lsInstructors;
+	}
+	
+	private String getInstructorFrom(Instructor ist)
+	{
+		StringBuilder sb = new StringBuilder();
+		List<School> lsSchools = ist.getSchool();
+		if(CollectionUtils.isNotEmpty(lsSchools))
+		{
+			for(int i = 0; i < lsSchools.size(); i++)
+			{
+				School school = lsSchools.get(i);
+				if(i > 0)
+					sb.append(", ");
+				sb.append(school.getName());
+			}
+		}
+		return sb.toString();
+	}
+	
 	
 	private List<CourseShortInfoDto> getAllCourses()
 	{
@@ -79,7 +132,6 @@ public class CourseService {
 			aDto.setMobile(course.isIsMobile());
 			lsCourses.add(aDto);
 		}
-		
 		return lsCourses;
 	}
 	

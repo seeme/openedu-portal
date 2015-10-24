@@ -9,6 +9,9 @@
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="bootstrap-3.3.5/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="bootstrap-3.3.5/css/bootstrap-theme.min.css">
@@ -34,11 +37,11 @@ body {
 }
 
 .course-info {
-	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
-h4 {
+.course-info h4 {
 	border-bottom: 1px solid lightgrey;
 }
 
@@ -47,6 +50,24 @@ h4 {
 	padding: 10px;
 	border-radius: 5px;
 	margin: 10px;
+}
+
+.course-item {
+	font-weight: bold;
+}
+
+.course-item-block {
+	padding: 5px;
+	margin: 3px 5px 3px 5px;
+}
+
+.course-item-block-not-last {
+	border-bottom: 1px solid lightgray;
+}
+
+.courser-instructor {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 </style>
 
@@ -69,6 +90,18 @@ h4 {
 				$("#course-name").html(data.name);
 				$("#course-intro").html(data.descIntro);
 				$("#course-objective").html(data.descObjective);
+				$("#course-target").html(data.descTarget);
+				$("#course-characteristic").html(data.descCharact);
+				$("#course-schedule").html(data.descSchedule);
+				$("#course-assessment").html(data.descAssess);
+				$("#course-prerequisite").html(data.descPrereq);
+				$("#institute").html(data.offers);
+				$("#category").html(data.categories);
+				$("#course-id").html(data.cid);
+				$("#course-startdate").html(data.startDate);
+				enableBtn(data.availability, data.link);
+				setVideo(data.videoURL);
+				loadInstructors(data.instructors);
 			},
 
 			error : function() {
@@ -76,6 +109,35 @@ h4 {
 			}
 		});
 	});
+
+	function enableBtn(available, link){
+		var disableBtnClass = $("#enroll-btn").attr('class') + ' disabled';
+		if(!(available == 'Current' || available == 'Self')){
+			$("#enroll-btn").attr("class", disableBtnClass);
+		}
+		else {
+			$("#enroll-btn").attr('href', link);
+		}
+		if(available == 'Soon')
+		{
+			$("#enroll-btn").html('即將開課');
+		}
+	}
+
+	function setVideo(videoURL){
+		$('#videoFrame').attr('src', videoURL);
+	}
+
+	function loadInstructors(instructors){
+		var i;
+		for(i=0;i<instructors.length;i++){
+
+			var inner = '<div class="courser-instructor">' +
+				'<div><span style="font-size:125%;font-weight: bold;">'+instructors[i].name+'</span> <span>'+instructors[i].position+'</span></div>' +
+				'<div>'+instructors[i].description+'</div></div>';
+			$("#courser-instructors").append(inner);
+		}
+	}
 </script>
 
 
@@ -92,12 +154,12 @@ h4 {
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a href="#"><img src="img/OpeneduTWLogo.png"
+				<a href="./"><img src="img/OpeneduTWLogo.png"
 					style="max-height: 50px; margin-top: 5px;"></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">所有課程</a></li>
+					<li><a href="list.html">所有課程</a></li>
 					<li><a href="#about">行動課程</a></li>
 					<li><a href="#contact">學校機構</a></li>
 					<li><a
@@ -127,19 +189,34 @@ h4 {
 					<div class="col-md-10">
 						<iframe height="300" width="100%" frameborder="0" wmode="Opaque"
 							allowfullscreen=""
-							src="https://www.youtube.com/embed/oqDRPoPDehE?wmode=transparent"></iframe>
-						<div>
-							<a href="#" class="btn btn-warning" role="button">上課去</a>
+							id="videoFrame"></iframe>
+						<div style="height:32px;">
+							<a href="#" class="btn btn-warning pull-right" role="button" id="enroll-btn">上課去</a>
 						</div>
-						<div class="row"  style="padding-top:15px;">
-							<div class="col-md-6">課程編號</div>
-							<div class="col-md-6">開課週數</div>
-							<div class="col-md-6">fcux-2015011-201509</div>
-							<div class="col-md-6">10週</div>
-							<div class="col-md-6">開課日期</div>
-							<div class="col-md-6">學習時數</div>
-							<div class="col-md-6"></div>
-							<div class="col-md-6">2小時/週</div>
+						<div style="border:1px solid #cacaca; margin:10px;">
+							<div class="row course-item-block course-item-block-not-last">
+								<div class="col-md-4 course-item"><i class="fa fa-university"></i></i> 開課學校</div>
+								<div class="col-md-8" id="institute"></div>
+							</div>
+							<div class="row course-item-block course-item-block-not-last">
+								<div class="col-md-4 course-item"><i class="fa fa-book"></i> 課程分類</div>
+								<div class="col-md-8" id="category"></div>
+							</div>
+							<div class="row course-item-block course-item-block-not-last">
+								<div class="col-md-4 course-item"><i class="fa fa-list-ol"></i> 課程編號</div>
+								<div class="col-md-8" id="course-id"></div>
+							</div>
+							<div class="row course-item-block ">
+								<div class="col-md-4 course-item"><i class="fa fa-calendar"></i> 開課日期</div>
+								<div class="col-md-8" id="course-startdate"></div>
+							</div>
+								<!--<div class="col-md-4 course-item"><i class="fa fa-book"></i> 課程分類</div>
+								<div class="col-md-8" id="category"></div>
+								<div class="col-md-4 course-item"><i class="fa fa-list-ol"></i> 課程編號</div>
+								<div class="col-md-8" id="course-id"></div>
+								<div class="col-md-4 course-item"><i class="fa fa-calendar"></i> 開課日期</div>
+								<div class="col-md-8" id="course-startdate"></div>-->
+
 						</div>
 					</div>
 					<div class="col-md-1"></div>
@@ -148,78 +225,64 @@ h4 {
 
 
 			<div class="col-md-7">
-				<div class="course-info">
-					<h4>課程簡介</h4>
-					<div id="course-intro"></div>
-				</div>
 
-				<div class="course-info">
-					<h4>課程目標</h4>
-					<div id="course-objective">
+				<ul class="nav nav-tabs" style="margin-top:15px;">
+					<li class="active"><a data-toggle="tab" href="#course">課程說明</a></li>
+					<li><a data-toggle="tab" href="#instructor">授課教師</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div id="course" class="tab-pane fade in active" style="padding-left:5px;">
+					<div class="course-info">
+						<h4>課程簡介</h4>
+						<div id="course-intro"></div>
 					</div>
-				</div>
 
-				<div class="course-info">
-					<h4>適用對象</h4>
-					<div>
-						<ul>
-							<li>修習過高一地理資訊課程之高中生</li>
-							<li>對空間資訊有興趣之大專學生</li>
-							<li>一般民眾</li>
-						</ul>
-					</div>
-				</div>
-
-				<div class="course-info">
-					<h4>課程特色</h4>
-					<div>
-						運用基本的空間概念作為基礎，結合空間資訊的基礎知識、整合系統與創新應用，分享最新的空間資訊技術，透過環環相扣的單元課程內容，引導學生思考空間資訊在未來的城市規劃與發展，擘劃出智慧生活的美好藍圖。
-					</div>
-				</div>
-
-				<div class="course-info">
-					<h4>課程進度</h4>
-					<div>
-						<ul>
-							<li>第一週 課程介紹、認識地圖方位</li>
-							<li>第二週 地圖投影(坐標、投影系統)</li>
-							<li>第三週 向量式資料與網格式資料</li>
-							<li>第四週 遙感探測原理</li>
-							<li>第五週 全球定位系統</li>
-							<li>第六週 無人飛行載具(UAV)</li>
-							<li>第七週 空間資訊於防災應用</li>
-							<li>第八週 空間資訊於交通應用</li>
-							<li>第九週 空間資訊與智慧城市</li>
-							<li>第十週 空間資訊與智慧生活</li>
-						</ul>
-					</div>
-				</div>
-
-				<div class="course-info">
-					<h4>學習成效評量</h4>
-					<div>
-						<ul>
-							<li>各周單元練習測驗20%</li>
-							<li>期中議題心得報告30%</li>
-							<li>期末總結心得報告30%</li>
-							<li>線上討論20%</li>
-						</ul>
-					</div>
-				</div>
-
-				<div class="course-info">
-					<h4>先備知識</h4>
-					<div>具備基礎的空間知識，如方向方位、經緯座標，並有使用智慧行動裝置、電子地圖等經驗者，較易快速融入課程</div>
-				</div>
-
-				<div class="course-info">
-					<h4>授課教師</h4>
-					<div class="courser-instructor">
-						<div class="instructor-name">邱世寬 (逢甲大學國貿系副教授)</div>
-						<div class="instructor-desc">
-							現任逢甲大學商學博士學位學程主任，獲選為逢甲大學2011年全校優良教師，有十年產業界服務經驗，並為上市公司監察人、公司獨立董事、多家公司策略發展與組織設計顧問、HBR行銷專題講座。
+					<div class="course-info">
+						<h4>課程目標</h4>
+						<div id="course-objective">
 						</div>
 					</div>
+
+					<div class="course-info">
+						<h4>適用對象</h4>
+						<div id="course-target">
+						</div>
+					</div>
+
+					<div class="course-info">
+						<h4>課程特色</h4>
+						<div id="course-characteristic">
+						</div>
+					</div>
+
+					<div class="course-info">
+						<h4>課程進度</h4>
+						<div id="course-schedule">
+						</div>
+					</div>
+
+					<div class="course-info">
+						<h4>學習成效評量</h4>
+						<div id="course-assessment">
+						</div>
+					</div>
+
+					<div class="course-info">
+						<h4>先備知識</h4>
+						<div id="course-prerequisite"></div>
+					</div>
+				</div>
+
+				<div id="instructor" class="tab-pane fade">
+					<div class="course-info" id="courser-instructors">
+						<!--<div class="courser-instructor">
+							<div><span></span> <span></span></div>
+							<div></div>
+						</div>-->
+					</div>
+				</div>
+
 				</div>
 			</div>
 
