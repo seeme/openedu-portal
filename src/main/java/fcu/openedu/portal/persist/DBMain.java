@@ -9,8 +9,11 @@ public class DBMain {
 	public static void main(String[] args) {
 		
 		EntityDAO<Course> courseDao = new  EntityDAO<Course>();
-		List<Course> lsCourses = courseDao.findAll(Course.class);
-		for(Course course: lsCourses)
+		List<Course> ls = courseDao.query("from Course as course inner join fetch course.category cat where cat.name = '社會科學'" );
+		
+		//System.out.println(ls.size());
+		//List<Course> lsCourses = courseDao.findAll(Course.class);
+		for(Course course: ls)
 		{
 			System.out.println(course);
 		}
