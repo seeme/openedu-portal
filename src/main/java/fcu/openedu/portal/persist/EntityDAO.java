@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -55,6 +56,15 @@ public class EntityDAO<T> {
 			lsEntities = ls;
 		session.close();
 		return lsEntities;
+	}
+	
+	public List<T> query(String sHQL)
+	{
+		Session session = mSFactory.openSession();
+		Query query = session.createQuery(sHQL);
+		@SuppressWarnings("unchecked")
+		List<T> ls = query.list();
+		return ls;
 	}
 
 }
