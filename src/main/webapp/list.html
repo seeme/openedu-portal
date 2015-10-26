@@ -63,7 +63,7 @@ body {
 }
 
 .avail-separator {
-	padding-bottom: 50px;
+	padding-bottom: 15px;
 }
 </style>
 
@@ -72,9 +72,13 @@ body {
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script>
-	jQuery(document).ready(function($) {
 
-		$("body").hide();
+	var currentCourses = [];
+	var soonCourses = [];
+	var mobileCourses = [];
+	var selfCourses = [];
+
+	jQuery(document).ready(function($) {
 
 		$.ajax({
 			url : "rest/categories/list",
@@ -111,10 +115,8 @@ body {
 			type : "GET",
 			dataType : "json",
 			success : function(data) {
-				for ( var i = 0; i < data.length; i++ ) {
-					addCourse(data[i])
-				}
-				$("body").show();
+				groupCourses(data);
+				renderCourses();
 			},
 
 			error : function() {
@@ -123,7 +125,6 @@ body {
 		});
 
 		$("#btn-filter").click(function(){
-			cleanCourses();
 			var category = getCategory();
 			var institute = getInstitute();
 			var availability = getAvailability();
@@ -135,10 +136,9 @@ body {
 				type : "GET",
 				dataType : "json",
 				success : function(data) {
-					for ( var i = 0; i < data.length; i++ ) {
-						addCourse(data[i])
-					}
-					$("body").show();
+					clean();
+					groupCourses(data);
+					renderCourses();
 				},
 
 				error : function() {
@@ -148,6 +148,71 @@ body {
 		});
 
 	});
+
+	function groupCourses(courses)
+	{
+		var i;
+		for(i = 0; i < courses.length; i++)
+		{
+			var course = courses[i];
+			if(course.available == "Current" && !course.mobile)
+				currentCourses.push(course);
+			if(course.available == "Soon" && !course.mobile)
+				soonCourses.push(course);
+			if((course.available == 'Current' || course.available == 'Self')  && course.mobile)
+				mobileCourses.push(course);
+			if(course.available == "Self")
+					selfCourses.push(course);
+		}
+	}
+
+	function renderCourses()
+	{
+		var courseBlock = $('#course-blocks')
+		if(currentCourses.length > 0)
+			renderCourseGroup(courseBlock, '開課中課程', currentCourses);
+
+		if(soonCourses.length > 0)
+			renderCourseGroup(courseBlock, '即將開課', soonCourses);
+
+		if(mobileCourses.length > 0)
+			renderCourseGroup(courseBlock, '行動課程', mobileCourses);
+
+		if(selfCourses.length > 0)
+			renderCourseGroup(courseBlock, '自學課程', selfCourses);
+	}
+
+	function renderCourseGroup(courseBlock, availability, courses)
+	{
+		var h = document.createElement('h3');
+		$(h).html(availability);
+		$(h).attr('class','course-available');
+		courseBlock.append(h);
+
+		var row = document.createElement('div');
+		$(row).attr('class', 'row avail-separator');
+		courseBlock.append(row);
+
+		var i;
+		for(i = 0; i < courses.length; i++)
+		{
+			var data = 	courses[i];
+			var inner = '<div class="col-md-3">' +
+			'<div class="course-box">'  +
+			'<div class="course-desc course-univ">' + data.courseOffer + '</div>' +
+			'<div>' +
+			'<a href="course.html?id=' + data.id + '"><img src="' +data.thumbURL + '" class="img-responsive"></a>' +
+			'</div>' +
+			'<div class="course-desc course-name">' + data.courseName + '</div>'  +
+			'<div class="course-desc">' + data.courseDuration + '</div>' +
+			'<div class="course-desc">' +
+			'<span class="course-category-span">' + data.courseCategory+ '</span>' +
+			'</div>' +
+			'</div>' +
+			'</div>';
+			$(row).append(inner);
+		}
+	}
 
 	function getCategory()
 	{
@@ -190,60 +255,16 @@ body {
 	}
 
 
-	function cleanCourses()
+	function clean()
 	{
-			$("#avail-current").html("");
-			$("#avail-current").prev().hide();
-			$("#avail-soon").html("");
-			$("#avail-soon").prev().hide();
-			$("#avail-mobile").html("");
-			$("#avail-mobile").prev().hide();
-			$("#avail-self").html("");
-			$("#avail-self").prev().hide();
-	}
-
-	function addCourse(data)
-	{
-		//alert(data.courseOffer);
-		var inner = '<div class="col-md-3">' +
-			'<div class="course-box">'  +
-				'<div class="course-desc course-univ">' + data.courseOffer + '</div>' +
-				'<div>' +
-			'<a href="course.html?id=' + data.id + '"><img src="' +data.thumbURL + '" class="img-responsive"></a>' +
-				'</div>' +
-				'<div class="course-desc course-name">' + data.courseName + '</div>'  +
-				'<div class="course-desc">' + data.courseDuration + '</div>' +
-				'<div class="course-desc">' +
-			'<span class="course-category-span">' + data.courseCategory+ '</span>' +
-				'</div>' +
-					'</div>' +
-						'</div>';
-		//$("#avail-current").append(inner);
-		appendCourse(inner, data.available, data.mobile);
-	}
-
-	function appendCourse(inner, available, mobile){
-		if(available == 'Current' && !mobile){
-			  $("#avail-current").prev().show();
-				$("#avail-current").append(inner);
-		}
-		if((available == 'Current' || available== 'Self') && mobile){
-			$("#avail-mobile").prev().show();
-			$("#avail-mobile").append(inner);
-		}
-		if (available == 'Soon') {
-			  $("#avail-soon").prev().show();
-				$("#avail-soon").append(inner);
-		}
-		if (available == 'Self') {
-			  $("#avail-self").prev().show();
-				$("#avail-self").append(inner);
-		}
+			currentCourses = [];
+			soonCourses = [];
+			mobileCourses = [];
+			selfCourses = [];
+			$('#course-blocks').html('');
 	}
 
 </script>
-
-
 
 </head>
 <body>
@@ -269,7 +290,6 @@ body {
 						href="https://courses.openedu.tw/accounts/login?next=/dashboard">我的課程</a></li>
 				</ul>
 			</div>
-			<!--/.nav-collapse -->
 		</div>
 	</nav>
 
@@ -307,7 +327,7 @@ body {
 					<select class="form-control" id="course-select-availability">
 						<option value="-1" selected disabled hidden>課程狀態</option>
 						<option value="-1" >全部</option>
-						<option value="Currrent" >開課中</option>
+						<option value="Current" >開課中</option>
 						<option value="Soon" >即將開課</option>
 						<option value="Self" >自學課程</option>
 					</select>
@@ -323,27 +343,8 @@ body {
 			</div>
 		</div>
 
-		<h3 class="course-available">開課中課程</h3>
-		<div class="row avail-separator" id="avail-current">
-			<!- list current courses --->
-		</div>
-
-
-		<h3 class="course-available">即將開課</h3>
-		<div class="row avail-separator" id="avail-soon">
-		<!-- list course comming soon-->
-		</div>
-
-
-		<h3 class="course-available">開課中行動課程</h3>
-		<div class="row avail-separator" id="avail-mobile">
-			<!-- list courses for mobile devices -->
-		</div>
-
-		<h3 class="course-available">自學課程</h3>
-		<div class="row avail-separator" id="avail-self">
-			<!-- list self-learnign courses -->
-		</div>
+   <div id="course-blocks">
+	 </div>
 
 	</div>
 </body>
