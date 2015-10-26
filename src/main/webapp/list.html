@@ -1,77 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>中華開放教育平台</title>
+	<meta charset="UTF-8">
+	<title>中華開放教育平台</title>
 
-<link rel="shortcut icon"
+	<link rel="shortcut icon"
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="bootstrap-3.3.5/css/bootstrap.min.css">
-<!-- Optional theme -->
-<link rel="stylesheet"
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="bootstrap-3.3.5/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet"
 	href="bootstrap-3.3.5/css/bootstrap-theme.min.css">
 
-<style>
-body {
-	padding-top: 70px;
-	font-family: "Helvetica Neue", Helvetica, Arial, "微軟正黑體", "微软雅黑";
-}
+	<style>
+	body {
+		padding-top: 70px;
+		font-family: "Helvetica Neue", Helvetica, Arial, "微軟正黑體", "微软雅黑";
+	}
 
-.navbar-nav>li>a {
-	padding-top: 20px !important;
-	padding-bottom: 20px !important;
-}
+	.navbar-nav>li>a {
+		padding-top: 20px !important;
+		padding-bottom: 20px !important;
+	}
 
-.navbar {
-	min-height: 60px !important
-}
+	.navbar {
+		min-height: 60px !important
+	}
 
-.course-available {
-	text-align: left;
-	padding-top: 15px;
-	border-bottom: 1.5px solid lightgrey;
-}
+	.course-available {
+		text-align: left;
+		padding-top: 15px;
+		border-bottom: 1.5px solid lightgrey;
+	}
 
-.course-box {
-	-webkit-box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
-	-moz-box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
-	box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
-	margin-bottom: 20px;
-}
+	.course-box {
+		-webkit-box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
+		-moz-box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
+		box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
+		margin-bottom: 20px;
+	}
 
-.course-desc {
-	font-size: larger;
-}
+	.course-desc {
+		font-size: larger;
+	}
 
-.course-name {
-	height: 60px;
-}
+	.course-name {
+		height: 60px;
+	}
 
-.course-univ {
-	padding: 3px;
-	background-color: #5bc0de;
-	color: #fff;
-}
+	.course-univ {
+		padding: 3px;
+		background-color: #5bc0de;
+		color: #fff;
+	}
 
-.course-category-span {
-	background-color: #5cb85c;
-	color: #fff;
-	padding: 3px;
-	font-size: 85%;
-}
+	.course-category-span {
+		background-color: #5cb85c;
+		color: #fff;
+		padding: 3px;
+		font-size: 85%;
+	}
 
-.avail-separator {
-	padding-bottom: 15px;
-}
-</style>
+	.avail-separator {
+		padding-bottom: 15px;
+	}
 
-<script src="script/jquery-2.1.4.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script
+	#course-filters {
+		border: 1px solid lightgray;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    background-color: #FFFFCC;
+	}
+	</style>
+
+	<script src="script/jquery-2.1.4.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script>
+	<script>
 
 	var currentCourses = [];
 	var soonCourses = [];
@@ -130,7 +139,7 @@ body {
 			var availability = getAvailability();
 			var mobile = getMobile();
 			var keyword = getKeyword();
-      var path = "rest/courses/query?" + category + institute + availability + mobile + keyword;
+			var path = "rest/courses/query?" + category + institute + availability + mobile + keyword;
 			$.ajax({
 				url : path,
 				type : "GET",
@@ -156,13 +165,13 @@ body {
 		{
 			var course = courses[i];
 			if(course.available == "Current" && !course.mobile)
-				currentCourses.push(course);
+			currentCourses.push(course);
 			if(course.available == "Soon" && !course.mobile)
-				soonCourses.push(course);
+			soonCourses.push(course);
 			if((course.available == 'Current' || course.available == 'Self')  && course.mobile)
-				mobileCourses.push(course);
+			mobileCourses.push(course);
 			if(course.available == "Self")
-					selfCourses.push(course);
+			selfCourses.push(course);
 		}
 	}
 
@@ -170,16 +179,16 @@ body {
 	{
 		var courseBlock = $('#course-blocks')
 		if(currentCourses.length > 0)
-			renderCourseGroup(courseBlock, '開課中課程', currentCourses);
+		renderCourseGroup(courseBlock, '開課中課程', currentCourses);
 
 		if(soonCourses.length > 0)
-			renderCourseGroup(courseBlock, '即將開課', soonCourses);
+		renderCourseGroup(courseBlock, '即將開課', soonCourses);
 
 		if(mobileCourses.length > 0)
-			renderCourseGroup(courseBlock, '行動課程', mobileCourses);
+		renderCourseGroup(courseBlock, '行動課程', mobileCourses);
 
 		if(selfCourses.length > 0)
-			renderCourseGroup(courseBlock, '自學課程', selfCourses);
+		renderCourseGroup(courseBlock, '自學課程', selfCourses);
 	}
 
 	function renderCourseGroup(courseBlock, availability, courses)
@@ -218,7 +227,7 @@ body {
 	{
 		var value = $("#course-select-category").val();
 		if(value != '-1' && value != null)
-			return '&category='+value;
+		return '&category='+value;
 		return '';
 	}
 
@@ -226,7 +235,7 @@ body {
 	{
 		var value = $("#course-select-institute").val();
 		if(value != '-1' && value != null)
-			return '&institute='+value;
+		return '&institute='+value;
 		return '';
 	}
 
@@ -234,7 +243,7 @@ body {
 	{
 		var value = $("#course-select-availability").val();
 		if(value != '-1' && value != null)
-			return '&availability='+value;
+		return '&availability='+value;
 		return '';
 	}
 
@@ -242,29 +251,29 @@ body {
 	{
 		var value = $("#course-select-mobile").val();
 		if(value != '-1' && value != null)
-			return '&mobile='+value;
-			return '';
+		return '&mobile='+value;
+		return '';
 	}
 
 	function getKeyword()
 	{
 		var value = $("#course-keyword").val().trim();
 		if(value != '')
-			return '&keyword='+value;
+		return '&keyword='+value;
 		return value;
 	}
 
 
 	function clean()
 	{
-			currentCourses = [];
-			soonCourses = [];
-			mobileCourses = [];
-			selfCourses = [];
-			$('#course-blocks').html('');
+		currentCourses = [];
+		soonCourses = [];
+		mobileCourses = [];
+		selfCourses = [];
+		$('#course-blocks').html('');
 	}
 
-</script>
+	</script>
 
 </head>
 <body>
@@ -272,14 +281,14 @@ body {
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-					aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a href="./"><img src="img/OpeneduTWLogo.png"
-					style="max-height: 50px; margin-top: 5px;"></a>
+				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span> <span
+				class="icon-bar"></span> <span class="icon-bar"></span> <span
+				class="icon-bar"></span>
+			</button>
+			<a href="./"><img src="img/OpeneduTWLogo.png"
+				style="max-height: 50px; margin-top: 5px;"></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -287,64 +296,66 @@ body {
 					<li><a href="#contact">學校機構</a></li>
 					<li><a
 						href="https://courses.openedu.tw/accounts/login?next=/dashboard">我的課程</a></li>
-				</ul>
+					</ul>
+				</div>
 			</div>
+		</nav>
+
+		<div class="container">
+
+			<div id="course-filters">
+				<div class="row">
+					<div class="col-md-2">
+						<div class="form-group">
+							<select class="form-control" id="course-select-category">
+								<option value="-1" selected disabled hidden>課程分類</option>
+								<option value="-1" >全部</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<select class="form-control" id="course-select-institute">
+								<option value="-1" selected disabled hidden>開課學校</option>
+								<option value="-1" >全部</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<select class="form-control" id="course-select-mobile">
+								<option value="-1" selected disabled hidden>行動課程</option>
+								<option value="-1" >全部</option>
+								<option value="true" >行動課程</option>
+								<option value="false" >一般課程</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<select class="form-control" id="course-select-availability">
+								<option value="-1" selected disabled hidden>課程狀態</option>
+								<option value="-1" >全部</option>
+								<option value="Current" >開課中</option>
+								<option value="Soon" >即將開課</option>
+								<option value="Self" >自學課程</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="關鍵字" id="course-keyword">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" id="btn-filter">Go!</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="course-blocks">
+			</div>
+
 		</div>
-	</nav>
-
-	<div class="container">
-
-		<div class="row avail-separator">
-			<div class="col-md-2">
-				<div class="form-group">
-					<select class="form-control" id="course-select-category">
-						<option value="-1" selected disabled hidden>課程分類</option>
-						<option value="-1" >全部</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<select class="form-control" id="course-select-institute">
-						<option value="-1" selected disabled hidden>開課學校</option>
-						<option value="-1" >全部</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<select class="form-control" id="course-select-mobile">
-						<option value="-1" selected disabled hidden>行動課程</option>
-						<option value="-1" >全部</option>
-						<option value="true" >行動課程</option>
-						<option value="false" >一般課程</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<select class="form-control" id="course-select-availability">
-						<option value="-1" selected disabled hidden>課程狀態</option>
-						<option value="-1" >全部</option>
-						<option value="Current" >開課中</option>
-						<option value="Soon" >即將開課</option>
-						<option value="Self" >自學課程</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="關鍵字" id="course-keyword">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="btn-filter">Go!</button>
-					</span>
-				</div>
-			</div>
-		</div>
-
-   <div id="course-blocks">
-	 </div>
-
-	</div>
-</body>
-</html>
+	</body>
+	</html>

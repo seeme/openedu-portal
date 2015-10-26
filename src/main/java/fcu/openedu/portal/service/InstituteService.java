@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.collections.CollectionUtils;
 
 import fcu.openedu.domain.School;
-import fcu.openedu.portal.domain.CategoryDto;
 import fcu.openedu.portal.domain.InstituteDto;
 import fcu.openedu.portal.persist.EntityDAO;
 import jersey.repackaged.com.google.common.collect.Lists;

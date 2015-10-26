@@ -31,7 +31,7 @@ import jersey.repackaged.com.google.common.collect.Lists;
 @Path("/courses")
 public class CourseService {
 
-	public static final String CLICHED_MESSAGE = "Hello World!";
+	public static final String sEcho = "This is course service.";
 
 	private EntityDAO<Course> mCourseDao = new EntityDAO<Course>();
 
@@ -40,25 +40,95 @@ public class CourseService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getHello() {
-		return CLICHED_MESSAGE;
+		return sEcho;
 	}
 
 	@Path("/listShortInfo")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCourseShortInfo() {
-		List<CourseShortInfoDto> ls = getAllCourses();// getTestCourses();
+		List<CourseShortInfoDto> ls = getAllCourses();
 		Response rs = Response.ok().entity(new GenericEntity<List<CourseShortInfoDto>>(ls) {
 		}).build();
 		return rs;
+	}
+	
+	private List<CourseShortInfoDto> getAllCourses() {
+		List<CourseShortInfoDto> lsCourses = Lists.newArrayList();
+		List<Course> lsModels = mCourseDao.findAll(Course.class);
+		for (Course course : lsModels) 
+			lsCourses.add(transformModelToShortInfoDto(course));
+		return lsCourses;
+	}
+	
+	private CourseShortInfoDto transformModelToShortInfoDto(Course course)
+	{
+		CourseShortInfoDto aDto = new CourseShortInfoDto();
+		aDto.setAvailable(course.getAvailability().getName());
+		aDto.setCourseDuration(getCourseDuration(course));
+		aDto.setCourseName(course.getName());
+		aDto.setCourseOffer(getInstitutes(course));
+		aDto.setCourseCategory(getCategories(course));
+		aDto.setId(String.valueOf(course.getId()));
+		aDto.setThumbURL(course.getThumbURL());
+		aDto.setMobile(course.isIsMobile());
+		return aDto;
+	}
+	
+	private String getCourseDuration(Course course) {
+		Date startDate = course.getStartDate();
+		Date endDate = course.getEndData();
+
+		if (startDate == null || endDate == null) {
+			// to-do: add log here
+			return "";
+		}
+		String sCourseDuration = mDateFormat.format(startDate) + "~" + mDateFormat.format(endDate);
+		return sCourseDuration;
+	}
+	
+	private String getInstitutes(Course course) {
+		StringBuilder sb = new StringBuilder();
+		List<School> lsOffers = course.getOffer();
+		if (CollectionUtils.isNotEmpty(lsOffers)) {
+			for (int i = 0; i < lsOffers.size(); i++) {
+				School s = lsOffers.get(i);
+				if (i > 0)
+					sb.append(", ");
+				sb.append(s.getName());
+			}
+			return sb.toString();
+		}
+		// to-do: add log here
+		return "";
+	}
+	
+	private String getCategories(Course course) {
+		List<Category> lsCats = course.getCategory();
+		StringBuilder sb = new StringBuilder();
+
+		if (CollectionUtils.isNotEmpty(lsCats)) {
+			for (int i = 0; i < lsCats.size(); i++) {
+				if (i > 0)
+					sb.append(", ");
+				sb.append(lsCats.get(i).getName());
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 
 	@Path("/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public CourseCompleteInfoDto getCourseInfo(@PathParam("id") long id) {
-		CourseCompleteInfoDto dCourse = new CourseCompleteInfoDto();
 		Course mCourse = mCourseDao.findById(Course.class, Long.valueOf(id));
+		CourseCompleteInfoDto dCourse = transformModelToCompleteInfoDto(mCourse);
+		return dCourse;
+	}
+	
+	private CourseCompleteInfoDto transformModelToCompleteInfoDto(Course mCourse){
+		CourseCompleteInfoDto dCourse = new CourseCompleteInfoDto();
 		dCourse.setName(mCourse.getName());
 		dCourse.setDescIntro(mCourse.getDescription().getIntro());
 		dCourse.setDescObjective(mCourse.getDescription().getObjective());
@@ -67,7 +137,7 @@ public class CourseService {
 		dCourse.setDescSchedule(mCourse.getDescription().getSchedule());
 		dCourse.setDescAssess(mCourse.getDescription().getAssessment());
 		dCourse.setDescPrereq(mCourse.getDescription().getPrerequisite());
-		dCourse.setOffers(getOffers(mCourse));
+		dCourse.setOffers(getInstitutes(mCourse));
 		dCourse.setCategories(getCategories(mCourse));
 		dCourse.setCid(mCourse.getCid());
 		dCourse.setAvailability(mCourse.getAvailability().getName());
@@ -78,7 +148,7 @@ public class CourseService {
 		dCourse.setInstructors(getInstructors(mCourse));
 		return dCourse;
 	}
-
+	
 	@Path("/query")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -89,7 +159,7 @@ public class CourseService {
 		List<Course> lsMCourses = mCourseDao.query(buildHQL(sCategoryId, sInstituteId, sAvail, sKeyword, sMobile));
 		if (CollectionUtils.isNotEmpty(lsMCourses))
 			for (Course course : lsMCourses)
-				lsCourseDtos.add(transformModelToDto(course));
+				lsCourseDtos.add(transformModelToShortInfoDto(course));
 		return lsCourseDtos;
 	}
 
@@ -139,80 +209,5 @@ public class CourseService {
 			}
 		}
 		return sb.toString();
-	}
-
-	private List<CourseShortInfoDto> getAllCourses() {
-		List<CourseShortInfoDto> lsCourses = Lists.newArrayList();
-		List<Course> lsModels = mCourseDao.findAll(Course.class);
-
-		for (Course course : lsModels) {
-			CourseShortInfoDto aDto = new CourseShortInfoDto();
-			aDto.setAvailable(course.getAvailability().getName());
-			aDto.setCourseDuration(getCourseDuration(course));
-			aDto.setCourseName(course.getName());
-			aDto.setCourseOffer(getOffers(course));
-			aDto.setCourseCategory(getCategories(course));
-			aDto.setId(String.valueOf(course.getId()));
-			aDto.setThumbURL(course.getThumbURL());
-			aDto.setMobile(course.isIsMobile());
-			lsCourses.add(aDto);
-		}
-		return lsCourses;
-	}
-
-	private String getCourseDuration(Course course) {
-		Date startDate = course.getStartDate();
-		Date endDate = course.getEndData();
-
-		if (startDate == null || endDate == null) {
-			// to-do: add log here
-			return "";
-		}
-		String sCourseDuration = mDateFormat.format(startDate) + "~" + mDateFormat.format(endDate);
-		return sCourseDuration;
-	}
-
-	private String getOffers(Course course) {
-		StringBuilder sb = new StringBuilder();
-		List<School> lsOffers = course.getOffer();
-		if (CollectionUtils.isNotEmpty(lsOffers)) {
-			for (int i = 0; i < lsOffers.size(); i++) {
-				School s = lsOffers.get(i);
-				if (i > 0)
-					sb.append(", ");
-				sb.append(s.getName());
-			}
-			return sb.toString();
-		}
-		// to-do: add log here
-		return "";
-	}
-
-	private CourseShortInfoDto transformModelToDto(Course course) {
-		CourseShortInfoDto aDto = new CourseShortInfoDto();
-		aDto.setAvailable(course.getAvailability().getName());
-		aDto.setCourseDuration(getCourseDuration(course));
-		aDto.setCourseName(course.getName());
-		aDto.setCourseOffer(getOffers(course));
-		aDto.setCourseCategory(getCategories(course));
-		aDto.setId(String.valueOf(course.getId()));
-		aDto.setThumbURL(course.getThumbURL());
-		aDto.setMobile(course.isIsMobile());
-		return aDto;
-	}
-
-	private String getCategories(Course course) {
-		List<Category> lsCats = course.getCategory();
-		StringBuilder sb = new StringBuilder();
-
-		if (CollectionUtils.isNotEmpty(lsCats)) {
-			for (int i = 0; i < lsCats.size(); i++) {
-				if (i > 0)
-					sb.append(", ");
-				sb.append(lsCats.get(i).getName());
-			}
-			return sb.toString();
-		}
-		return "";
 	}
 }

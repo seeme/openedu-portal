@@ -47,16 +47,15 @@ public class CategoryService {
 
 		if (CollectionUtils.isNotEmpty(lsMCats))
 			for (Category mCat : lsMCats)
-				lsCats.add(tramsforModelToDto(mCat));
+				lsCats.add(tramsformModelToDto(mCat));
 		return lsCats;
 	}
 
-	private CategoryDto tramsforModelToDto(Category mCat) {
+	private CategoryDto tramsformModelToDto(Category mCat) {
 		CategoryDto dCat = new CategoryDto();
 		dCat.setId(mCat.getId());
 		dCat.setName(mCat.getName());
 		return dCat;
-
 	}
 
 }
