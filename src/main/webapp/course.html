@@ -131,11 +131,28 @@ body {
 	function loadInstructors(instructors){
 		var i;
 		for(i=0;i<instructors.length;i++){
-
+			var instructor = instructors[i];
 			var inner = '<div class="courser-instructor">' +
-				'<div><span style="font-size:125%;font-weight: bold;">'+instructors[i].name+'</span> <span>'+instructors[i].position+'</span></div>' +
-				'<div>'+instructors[i].description+'</div></div>';
+			    '<table><tr>' +
+			    '<td width="130" style="text-align:center;"><img src="' + getInstructurePictureURL(instructor) +'" width="120" height="180"></td>' +
+				'<td style="vertical-align: top"><div style="paddind:5px;"><span style="font-size:125%;font-weight: bold;">'+instructor.name+'</span> <span>'+instructor.position+'</span></div>' +
+				'<div>'+getInstructorDesc(instructor)+'</div></td>'+
+				'<tr></table></div>';
 			$("#courser-instructors").append(inner);
+		}
+		
+		function getInstructurePictureURL(instructor)
+		{
+			if(instructor.pictureURL== null)
+				return "img/instructors/default.png";
+			return	instructor.pictureURL;
+		}
+		
+		function getInstructorDesc(instructor)
+		{
+			if(instructor.description == null)
+				return '';
+			return instructor.description;
 		}
 	}
 </script>
