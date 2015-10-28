@@ -65,9 +65,11 @@ body {
 	border-bottom: 1px solid lightgray;
 }
 
-.courser-instructor {
-	padding-top: 15px;
-	padding-bottom: 15px;
+.course-instructor {
+	padding: 15px;
+	border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 </style>
 
@@ -132,13 +134,13 @@ body {
 		var i;
 		for(i=0;i<instructors.length;i++){
 			var instructor = instructors[i];
-			var inner = '<div class="courser-instructor">' +
+			var inner = '<div class="course-instructor">' +
 			    '<table><tr>' +
 			    '<td width="130" style="text-align:center;"><img src="' + getInstructurePictureURL(instructor) +'" width="120" height="180"></td>' +
 				'<td style="vertical-align: top"><div style="paddind:5px;"><span style="font-size:125%;font-weight: bold;">'+instructor.name+'</span> <span>'+instructor.position+'</span></div>' +
 				'<div>'+getInstructorDesc(instructor)+'</div></td>'+
 				'<tr></table></div>';
-			$("#courser-instructors").append(inner);
+			$("#course-instructors").append(inner);
 		}
 		
 		function getInstructurePictureURL(instructor)
@@ -291,8 +293,8 @@ body {
 				</div>
 
 				<div id="instructor" class="tab-pane fade">
-					<div class="course-info" id="courser-instructors">
-						<!--<div class="courser-instructor">
+					<div class="course-info" id="course-instructors">
+						<!--<div class="course-instructor">
 							<div><span></span> <span></span></div>
 							<div></div>
 						</div>-->
