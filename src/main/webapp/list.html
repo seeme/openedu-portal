@@ -86,9 +86,15 @@
 	var soonCourses = [];
 	var mobileCourses = [];
 	var selfCourses = [];
+	var constantInsitute = 'institute';
+	
+	var instituteId = getInstituteId();
+	var queryByInstituteURL =  "rest/courses/query";
+	if(instituteId != '')
+		queryByInstituteURL = queryByInstituteURL + '?institute=' + instituteId;
 
 	jQuery(document).ready(function($) {
-
+		
 		$.ajax({
 			url : "rest/categories/list",
 			type : "GET",
@@ -110,7 +116,10 @@
 			dataType : "json",
 			success : function(data) {
 				for ( var i = 0; i < data.length; i++ ) {
-					$("#course-select-institute").append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+					if(data[i].id == instituteId)
+						$("#course-select-institute").append('<option value="' + data[i].id + '" selected>' + data[i].name + '</option>');
+					else
+						$("#course-select-institute").append('<option value="' + data[i].id + '">' + data[i].name + '</option>');		
 				}
 			},
 
@@ -118,9 +127,9 @@
 				alert("ERROR!!!");
 			}
 		});
-
+		
 		$.ajax({
-			url : "rest/courses/listShortInfo",
+			url : queryByInstituteURL,
 			type : "GET",
 			dataType : "json",
 			success : function(data) {
@@ -272,6 +281,26 @@
 		selfCourses = [];
 		$('#course-blocks').html('');
 	}
+	
+	function getInstituteId()
+	{
+		var url = document.location.href;
+		var mainurl = url.split('?');
+		if(mainurl.length == 1)
+			return '';
+		var params =  mainurl[1].split('&');
+		if(params.length > 0)
+		{
+			var i ;
+			for(i = 0; i < params.length; i++)
+			{
+				var key = params[i].split('=')[0];
+				if(key == constantInsitute)
+					return params[i].split('=')[1];
+			}
+		}
+		return '';
+	}
 
 	</script>
 
@@ -293,7 +322,7 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="list.html">所有課程</a></li>
-					<li><a href="#contact">學校機構</a></li>
+					<li><a href="institute.html">學校機構</a></li>
 					<li><a
 						href="https://courses.openedu.tw/accounts/login?next=/dashboard">我的課程</a></li>
 					</ul>
@@ -316,7 +345,7 @@
 					<div class="col-md-2">
 						<div class="form-group">
 							<select class="form-control" id="course-select-institute">
-								<option value="-1" selected disabled hidden>開課學校</option>
+								<option value="-1"  disabled hidden>開課學校</option>
 								<option value="-1" >全部</option>
 							</select>
 						</div>
