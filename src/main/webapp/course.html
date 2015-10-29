@@ -31,11 +31,6 @@ body {
 	min-height: 60px !important
 }
 
-.container-fluid-intro {
-	background-color: #89A4BF;
-	color: white;
-}
-
 .course-info {
 	padding-top: 15px;
 	padding-bottom: 15px;
@@ -136,8 +131,8 @@ body {
 			var instructor = instructors[i];
 			var inner = '<div class="course-instructor">' +
 			    '<table><tr>' +
-			    '<td width="130" style="text-align:center;"><img src="' + getInstructurePictureURL(instructor) +'" width="120" height="180"></td>' +
-				'<td style="vertical-align: top"><div style="paddind:5px;"><span style="font-size:125%;font-weight: bold;">'+instructor.name+'</span> <span>'+instructor.position+'</span></div>' +
+			    '<td width="130" style="text-align:center; vertical-align: top;"><img src="' + getInstructurePictureURL(instructor) +'" width="120" height="180"></td>' +
+				'<td style="vertical-align: top;"><div style="paddind:5px;"><span style="font-size:125%;font-weight: bold;">'+instructor.name+'</span> <span>'+instructor.position+'</span></div>' +
 				'<div>'+getInstructorDesc(instructor)+'</div></td>'+
 				'<tr></table></div>';
 			$("#course-instructors").append(inner);
@@ -188,14 +183,16 @@ body {
 		</div>
 	</nav>
 
-	<div class="container-fluid container-fluid-intro">
+    <div style="background-color: #89A4BF;">
+	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
-				<h3 id="course-name"></h3>
+				<h3 id="course-name" style="color: white;"></h3>
 			</div>
 			<div class="col-md-1"></div>
 		</div>
+	</div>
 	</div>
 
 	<div class="container">
@@ -227,13 +224,7 @@ body {
 							<div class="row course-item-block ">
 								<div class="col-md-4 course-item"><i class="fa fa-calendar"></i> 開課日期</div>
 								<div class="col-md-8" id="course-startdate"></div>
-							</div>
-								<!--<div class="col-md-4 course-item"><i class="fa fa-book"></i> 課程分類</div>
-								<div class="col-md-8" id="category"></div>
-								<div class="col-md-4 course-item"><i class="fa fa-list-ol"></i> 課程編號</div>
-								<div class="col-md-8" id="course-id"></div>
-								<div class="col-md-4 course-item"><i class="fa fa-calendar"></i> 開課日期</div>
-								<div class="col-md-8" id="course-startdate"></div>-->
+							</div>								
 
 						</div>
 					</div>
