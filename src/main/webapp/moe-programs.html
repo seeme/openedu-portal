@@ -45,8 +45,15 @@ body {
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="script/jssor.slider.min.js"></script>
 <script>
-jQuery(document).ready(function($) {
+jQuery(document).ready(function() {
+	$('.institute-logo').mouseenter(function(){
+		$(this).find('h4').attr("style", "color: #8B0000;");
+		//alert($(this).attr('class'));
+	});
 	
+	$('.institute-logo').mouseleave(function(){
+		$(this).find('h4').attr("style", "color: black;");
+	});
 });
 </script>
 
@@ -84,7 +91,7 @@ jQuery(document).ready(function($) {
 			<div class="row">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
-					<h3 id="course-name" style="color: white;">合作夥伴</h3>
+					<h3 id="course-name" style="color: white;">科技計畫</h3>
 				</div>
 				<div class="col-md-1"></div>
 			</div>
@@ -93,64 +100,28 @@ jQuery(document).ready(function($) {
 
 	<div class="container" style="margin-top:20px;'">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="institute-logo">
 					<div>
-						<a href="list.html?institute=1"><img src="img/institutes/fculogo1.png" class="img-responsive"></a>
+						<a href="https://idrs.openedu.tw" target="_blank"><img src="img/institutes/moe/IDRS-Logo1.png" class="img-responsive"></a>
 					</div>
-					<div style="text-align: center ;"><h4>逢甲大學線上課程</h4></div>
+					<div style="text-align: center ;"><h4>高中職數位閱讀計畫線上課程</h4></div>
 				</div>
 			</div>
 
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="institute-logo">
-					<a href="list.html?institute=6"><img src="img/institutes/niu.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>國立宜蘭大學線上課程</h4></div>
+					<a href="https://elfess.openedu.tw" target="_blank"><img src="img/institutes/moe/ELFESS-Logo.png" class="img-responsive"></a>
+					<div style="text-align: center ;"><h4>中小學數位閱讀計畫線上課程</h4></div>
 				</div>
 			</div>
 
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="institute-logo">
-					<a href="list.html?institute=3"><img src="img/institutes/ncu.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>國立中央大學線上課程</h4></div>
+					<a href="https://energyedu.openedu.tw" target="_blank" ><img src="img/institutes/moe/header-logo-energyedu.png" class="img-responsive"></a>
+					<div style="text-align: center ;"><h4>教育部能源科技人才培育網線上課程</h4></div>
 				</div>
 			</div>
-
-			<div class="col-md-3">
-				<div class="institute-logo">
-					<a href="moe-programs.html"><img src="img/institutes/moe.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>科技計畫線上課程</h4></div>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="institute-logo">
-					<a href="list.html?institute=5"><img src="img/institutes/yuntech.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>國立雲林科技大學線上課程</h4></div>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="institute-logo">
-					<a href="list.html?institute=6"><img src="img/institutes/nkust.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>國立高雄餐旅大學線上課程</h4></div>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="institute-logo">
-					<a href="https://sec.openedu.tw/" target="_blank"><img src="img/institutes/sec.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>軟體工程聯盟線上課程</h4></div>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="institute-logo">
-					<a href="list.html?institute=5"><img src="img/institutes/dyu.png" class="img-responsive"></a>
-					<div style="text-align: center ;"><h4>大葉大學線上課程</h4></div>
-				</div>
-			</div>
-
 		</div>
 	</div>
 </body>
