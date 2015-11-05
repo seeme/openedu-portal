@@ -8,13 +8,14 @@
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="bootstrap-3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <!-- Optional theme -->
 <link rel="stylesheet"
-	href="bootstrap-3.3.5/css/bootstrap-theme.min.css">
+	href="css/bootstrap-3.3.5/css/bootstrap-theme.min.css">
 
 <style>
 body {
@@ -63,21 +64,20 @@ body {
 .course-instructor {
 	padding: 15px;
 	border: 1px solid lightgrey;
-    border-radius: 5px;
-    margin-bottom: 10px;
+	border-radius: 5px;
+	margin-bottom: 10px;
 }
 </style>
 
 <script src="script/jquery-2.1.4.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="css/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="script/jssor.slider.min.js"></script>
 <script>
 	jQuery(document).ready(function($) {
 		var url = document.location.href;
 		var mainurl = url.split("?");
-		var id =  mainurl[1].split("=")[1];
+		var id = mainurl[1].split("=")[1];
 
 		$.ajax({
 			url : "rest/courses/" + id,
@@ -107,47 +107,46 @@ body {
 		});
 	});
 
-	function enableBtn(available, link){
+	function enableBtn(available, link) {
 		var disableBtnClass = $("#enroll-btn").attr('class') + ' disabled';
-		if(!(available == 'Current' || available == 'Self')){
+		if (!(available == 'Current' || available == 'Self')) {
 			$("#enroll-btn").attr("class", disableBtnClass);
-		}
-		else {
+		} else {
 			$("#enroll-btn").attr('href', link);
 		}
-		if(available == 'Soon')
-		{
+		if (available == 'Soon') {
 			$("#enroll-btn").html('即將開課');
 		}
 	}
 
-	function setVideo(videoURL){
+	function setVideo(videoURL) {
 		$('#videoFrame').attr('src', videoURL);
 	}
 
-	function loadInstructors(instructors){
+	function loadInstructors(instructors) {
 		var i;
-		for(i=0;i<instructors.length;i++){
+		for (i = 0; i < instructors.length; i++) {
 			var instructor = instructors[i];
-			var inner = '<div class="course-instructor">' +
-			    '<table><tr>' +
-			    '<td width="130" style="text-align:center; vertical-align: top;"><img src="' + getInstructurePictureURL(instructor) +'" width="120" height="180"></td>' +
-				'<td style="vertical-align: top;"><div style="paddind:5px;"><span style="font-size:125%;font-weight: bold;">'+instructor.name+'</span> <span>'+instructor.position+'</span></div>' +
-				'<div>'+getInstructorDesc(instructor)+'</div></td>'+
-				'<tr></table></div>';
+			var inner = '<div class="course-instructor">'
+					+ '<table><tr>'
+					+ '<td width="130" style="text-align:center; vertical-align: top;"><img src="'
+					+ getInstructurePictureURL(instructor)
+					+ '" width="120" height="180"></td>'
+					+ '<td style="vertical-align: top;"><div style="paddind:5px;"><span style="font-size:125%;font-weight: bold;">'
+					+ instructor.name + '</span> <span>' + instructor.position
+					+ '</span></div>' + '<div>' + getInstructorDesc(instructor)
+					+ '</div></td>' + '<tr></table></div>';
 			$("#course-instructors").append(inner);
 		}
-		
-		function getInstructurePictureURL(instructor)
-		{
-			if(instructor.pictureURL== null)
+
+		function getInstructurePictureURL(instructor) {
+			if (instructor.pictureURL == null)
 				return "img/instructors/default.png";
-			return	instructor.pictureURL;
+			return instructor.pictureURL;
 		}
-		
-		function getInstructorDesc(instructor)
-		{
-			if(instructor.description == null)
+
+		function getInstructorDesc(instructor) {
+			if (instructor.description == null)
 				return '';
 			return instructor.description;
 		}
@@ -183,16 +182,16 @@ body {
 		</div>
 	</nav>
 
-    <div style="background-color: #89A4BF;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
-				<h3 id="course-name" style="color: white;"></h3>
+	<div style="background-color: #89A4BF;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<h3 id="course-name" style="color: white;"></h3>
+				</div>
+				<div class="col-md-1"></div>
 			</div>
-			<div class="col-md-1"></div>
 		</div>
-	</div>
 	</div>
 
 	<div class="container">
@@ -203,28 +202,36 @@ body {
 					<div class="col-md-1"></div>
 					<div class="col-md-10">
 						<iframe height="300" width="100%" frameborder="0" wmode="Opaque"
-							allowfullscreen=""
-							id="videoFrame"></iframe>
-						<div style="height:32px;">
-							<a href="#" class="btn btn-warning pull-right" role="button" id="enroll-btn">上課去</a>
+							allowfullscreen="" id="videoFrame"></iframe>
+						<div style="height: 32px;">
+							<a href="#" class="btn btn-warning pull-right" role="button"
+								id="enroll-btn">上課去</a>
 						</div>
-						<div style="border:1px solid #cacaca; margin:10px;">
+						<div style="border: 1px solid #cacaca; margin: 10px;">
 							<div class="row course-item-block course-item-block-not-last">
-								<div class="col-md-4 course-item"><i class="fa fa-university"></i></i> 開課學校</div>
+								<div class="col-md-4 course-item">
+									<i class="fa fa-university"></i></i> 開課學校
+								</div>
 								<div class="col-md-8" id="institute"></div>
 							</div>
 							<div class="row course-item-block course-item-block-not-last">
-								<div class="col-md-4 course-item"><i class="fa fa-book"></i> 課程分類</div>
+								<div class="col-md-4 course-item">
+									<i class="fa fa-book"></i> 課程分類
+								</div>
 								<div class="col-md-8" id="category"></div>
 							</div>
 							<div class="row course-item-block course-item-block-not-last">
-								<div class="col-md-4 course-item"><i class="fa fa-list-ol"></i> 課程編號</div>
+								<div class="col-md-4 course-item">
+									<i class="fa fa-list-ol"></i> 課程編號
+								</div>
 								<div class="col-md-8" id="course-id"></div>
 							</div>
 							<div class="row course-item-block ">
-								<div class="col-md-4 course-item"><i class="fa fa-calendar"></i> 開課日期</div>
+								<div class="col-md-4 course-item">
+									<i class="fa fa-calendar"></i> 開課日期
+								</div>
 								<div class="col-md-8" id="course-startdate"></div>
-							</div>								
+							</div>
 
 						</div>
 					</div>
@@ -235,66 +242,112 @@ body {
 
 			<div class="col-md-7">
 
-				<ul class="nav nav-tabs" style="margin-top:15px;">
+				<ul class="nav nav-tabs" style="margin-top: 15px;">
 					<li class="active"><a data-toggle="tab" href="#course">課程說明</a></li>
 					<li><a data-toggle="tab" href="#instructor">授課教師</a></li>
 				</ul>
 
 				<div class="tab-content">
-					<div id="course" class="tab-pane fade in active" style="padding-left:5px;">
-					<div class="course-info">
-						<h4>課程簡介</h4>
-						<div id="course-intro"></div>
-					</div>
+					<div id="course" class="tab-pane fade in active"
+						style="padding-left: 5px;">
+						<div class="course-info">
+							<h4>課程簡介</h4>
+							<div id="course-intro"></div>
+						</div>
 
-					<div class="course-info">
-						<h4>課程目標</h4>
-						<div id="course-objective">
+						<div class="course-info">
+							<h4>課程目標</h4>
+							<div id="course-objective"></div>
+						</div>
+
+						<div class="course-info">
+							<h4>適用對象</h4>
+							<div id="course-target"></div>
+						</div>
+
+						<div class="course-info">
+							<h4>課程特色</h4>
+							<div id="course-characteristic"></div>
+						</div>
+
+						<div class="course-info">
+							<h4>課程進度</h4>
+							<div id="course-schedule"></div>
+						</div>
+
+						<div class="course-info">
+							<h4>學習成效評量</h4>
+							<div id="course-assessment"></div>
+						</div>
+
+						<div class="course-info">
+							<h4>先備知識</h4>
+							<div id="course-prerequisite"></div>
 						</div>
 					</div>
 
-					<div class="course-info">
-						<h4>適用對象</h4>
-						<div id="course-target">
-						</div>
-					</div>
-
-					<div class="course-info">
-						<h4>課程特色</h4>
-						<div id="course-characteristic">
-						</div>
-					</div>
-
-					<div class="course-info">
-						<h4>課程進度</h4>
-						<div id="course-schedule">
-						</div>
-					</div>
-
-					<div class="course-info">
-						<h4>學習成效評量</h4>
-						<div id="course-assessment">
-						</div>
-					</div>
-
-					<div class="course-info">
-						<h4>先備知識</h4>
-						<div id="course-prerequisite"></div>
-					</div>
-				</div>
-
-				<div id="instructor" class="tab-pane fade">
-					<div class="course-info" id="course-instructors">
-						<!--<div class="course-instructor">
+					<div id="instructor" class="tab-pane fade">
+						<div class="course-info" id="course-instructors">
+							<!--<div class="course-instructor">
 							<div><span></span> <span></span></div>
 							<div></div>
 						</div>-->
+						</div>
 					</div>
-				</div>
 
 				</div>
 			</div>
 
+		</div>
+
+		<div class="footer"
+			style="border-top: 1px solid lightgray; padding: 20px; background-color: #DCDCDC;">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="footer-item">
+						<a href="privacy.html">隱私權保護與資訊安全政策</a>
+					</div>
+					<div>
+						<a href="tos.html">服務條款</a>
+					</div>
+					<div class="footer-item">© 2015 中華開放教育平台，保留部分權利</div>
+					<div class="footer-item">
+						<a href="http://openedx.org"> <img
+							src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag-light.png"
+							width="75" height="25" alt="Powered by Open edX">
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="footer-item" style="font-size: 150%;">關於</div>
+					<div class="footer-item">
+						<a href="contact.html">聯絡我們</a>
+					</div>
+					<div class="footer-item">
+						<a href="http://copeneduc.org/" target="_blank">中華開放教育聯盟</a>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="footer-item" style="font-size: 150%;">Q&A</div>
+					<div class="footer-item">
+						<a href="how.html">如何上課/開課</a>
+					</div>
+					<div class="footer-item">
+						<a href="faq.html">常見問題</a>
+					</div>
+					<div class="footer-item">
+						<a href="guide.html">操作手冊</a>
+					</div>
+				</div>
+				<div class="col-md-4" style="text-align: center;">
+					<iframe name="fcb92f2cc" width="280px" height="1000px"
+						frameborder="0" allowtransparency="true" allowfullscreen="true"
+						scrolling="no" title="fb:page Facebook Social Plugin"
+						src="https://www.facebook.com/v2.3/plugins/page.php?app_id=871146829598893&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FwjDNIDNrTQG.js%3Fversion%3D41%23cb%3Dfbb37c7ac%26domain%3Dwww.openedu.tw%26origin%3Dhttps%253A%252F%252Fwww.openedu.tw%252Ff3886fa868%26relation%3Dparent.parent&amp;container_width=270&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fopenedu.tw&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=false&amp;show_posts=false&amp;width=280"
+						style="border: none; visibility: visible; width: 270px; height: 130px;"
+						class=""></iframe>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

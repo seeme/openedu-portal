@@ -8,11 +8,11 @@
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="bootstrap-3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
 <!-- Optional theme -->
 <link rel="stylesheet"
-	href="bootstrap-3.3.5/css/bootstrap-theme.min.css">
-	
+	href="css/bootstrap-3.3.5/css/bootstrap-theme.min.css">
+
 <style>
 body {
 	padding-top: 70px;
@@ -20,23 +20,23 @@ body {
 }
 
 a:link {
-    text-decoration: none;
-    color: black;
+	text-decoration: none;
+	color: black;
 }
 
 a:visited {
-    text-decoration: none;
-    color: black;
+	text-decoration: none;
+	color: black;
 }
 
 a:hover {
-    text-decoration: none;
-    color: #8B0000;
+	text-decoration: none;
+	color: #8B0000;
 }
 
 a:active {
-    text-decoration: none;
-    color: #8B0000;
+	text-decoration: none;
+	color: #8B0000;
 }
 
 .navbar-nav>li>a {
@@ -85,84 +85,100 @@ a:active {
 .avail-separator {
 	padding-bottom: 50px;
 }
+
+.footer-item {
+	padding-bottom:5px;	
+}
 </style>
 
 <script src="script/jquery-2.1.4.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	src="css/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="script/jssor.slider.min.js"></script>
 <script>
-	jQuery(document).ready(function($) {
-				
-		$("body").hide();
-		
-		var options = {
-			$AutoPlay : true
-		};
-		var jssor_slider1 = new $JssorSlider$('slider1_container', options);
+	jQuery(document)
+			.ready(
+					function($) {
 
-		$.ajax({
-			url : "rest/courses/listShortInfo",
-			type : "GET",
-			dataType : "json",
-			success : function(data) {
-				for ( var i = 0; i < data.length; i++ ) {
-					//if(data[i].available == 'Current')
-					//	addCurrentAvailableCourse( data[i]);
-					addCourse(data[i])
-				}
-				$("body").show();
-			},
+						$("body").hide();
 
-			error : function() {
-				alert("ERROR!!!");
-			}
-		});
+						var options = {
+							$AutoPlay : true
+						};
+						var jssor_slider1 = new $JssorSlider$(
+								'slider1_container', options);
 
-		function addCourse(data)
-		{
-			//alert(data.courseOffer);
-			var inner = '<div class="col-md-3">' +
-				'<div class="course-box" onmouseenter="courseOnMouseenter(this)" onmouseleave="courseOnMouseleave(this)">'  +
-			    '<div class="course-desc course-univ">' + data.courseOffer + '</div>' +
-			    '<div>' +
-				'<a href="course.html?id=' + data.id + '"><img src="' +data.thumbURL + '" class="img-responsive"></a>' +
-			    '</div>' +
-			    '<div class="course-desc course-name"><a href="course.html?id=' + data.id + '">' + data.courseName + '</a></div>'  +
-			    '<div class="course-desc">' + data.courseDuration + '</div>' +
-			    '<div class="course-desc">' +
-				'<span class="course-category-span">' + data.courseCategory+ '</span>' +
-			    '</div>' +
-		        '</div>' +
-	            '</div>';
-			//$("#avail-current").append(inner);
-			appendCourse(inner, data.available, data.mobile);
-		}
+						$.ajax({
+							url : "rest/courses/listShortInfo",
+							type : "GET",
+							dataType : "json",
+							success : function(data) {
+								for (var i = 0; i < data.length; i++) {
+									//if(data[i].available == 'Current')
+									//	addCurrentAvailableCourse( data[i]);
+									addCourse(data[i])
+								}
+								$("body").show();
+							},
 
-		function appendCourse(inner, available, mobile){
-			if(available == 'Current' && !mobile){
-					$("#avail-current").append(inner);
-			}
-			if((available == 'Current' || available== 'Self') && mobile){
-				$("#avail-mobile").append(inner);
-			}
-			if (available == 'Soon') {
-					$("#avail-soon").append(inner);
-			}
-			if (available == 'Self') {
-					$("#avail-self").append(inner);
-			}
-		}
-				
-	});
-	
+							error : function() {
+								alert("ERROR!!!");
+							}
+						});
+
+						function addCourse(data) {
+							//alert(data.courseOffer);
+							var inner = '<div class="col-md-3">'
+									+ '<div class="course-box" onmouseenter="courseOnMouseenter(this)" onmouseleave="courseOnMouseleave(this)">'
+									+ '<div class="course-desc course-univ">'
+									+ data.courseOffer
+									+ '</div>'
+									+ '<div>'
+									+ '<a href="course.html?id='
+									+ data.id
+									+ '"><img src="' +data.thumbURL + '" class="img-responsive"></a>'
+									+ '</div>'
+									+ '<div class="course-desc course-name"><a href="course.html?id='
+									+ data.id
+									+ '">'
+									+ data.courseName
+									+ '</a></div>'
+									+ '<div class="course-desc">'
+									+ data.courseDuration
+									+ '</div>'
+									+ '<div class="course-desc">'
+									+ '<span class="course-category-span">'
+									+ data.courseCategory
+									+ '</span>'
+									+ '</div>' + '</div>' + '</div>';
+							//$("#avail-current").append(inner);
+							appendCourse(inner, data.available, data.mobile);
+						}
+
+						function appendCourse(inner, available, mobile) {
+							if (available == 'Current' && !mobile) {
+								$("#avail-current").append(inner);
+							}
+							if ((available == 'Current' || available == 'Self')
+									&& mobile) {
+								$("#avail-mobile").append(inner);
+							}
+							if (available == 'Soon') {
+								$("#avail-soon").append(inner);
+							}
+							if (available == 'Self') {
+								$("#avail-self").append(inner);
+							}
+						}
+
+					});
+
 	function courseOnMouseenter(elm) {
-		$(elm).attr('style', 'background-color: antiquewhite;');	   
+		$(elm).attr('style', 'background-color: antiquewhite;');
 	}
-	
-	function courseOnMouseleave(elm)
-	{
+
+	function courseOnMouseleave(elm) {
 		$(elm).attr('style', '');
 	}
 </script>
@@ -189,7 +205,7 @@ a:active {
 					<li><a href="list.html">所有課程</a></li>
 					<li><a href="institute.html">學校機構</a></li>
 					<li><a
-						href="https://courses.openedu.tw/accounts/login?next=/dashboard">我的課程</a></li>					
+						href="https://courses.openedu.tw/accounts/login?next=/dashboard">我的課程</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -197,9 +213,8 @@ a:active {
 	</nav>
 
 	<div class="container">
-		<div class="row avail-separator">
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
+		<div class="row avail-separator">			
+			<div class="col-md-12">
 				<div id="slider1_container"
 					style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
 					<!-- Slides Container -->
@@ -217,19 +232,18 @@ a:active {
 
 					</div>
 				</div>
-			</div>
-			<div class="col-md-1"></div>
+			</div>			
 		</div>
 
 		<h3 class="course-available">開課中課程</h3>
 		<div class="row avail-separator" id="avail-current">
-			<!- list current courses --->
+			<!--  list current courses -->
 		</div>
 
 
 		<h3 class="course-available">即將開課</h3>
 		<div class="row avail-separator" id="avail-soon">
-		<!-- list course comming soon-->
+			<!-- list course comming soon-->
 		</div>
 
 
@@ -241,6 +255,36 @@ a:active {
 		<h3 class="course-available">自學課程</h3>
 		<div class="row avail-separator" id="avail-self">
 			<!-- list self-learnign courses -->
+		</div>
+
+		<div class="footer" style="border-top:1px solid lightgray;padding:20px;background-color:#DCDCDC;">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="footer-item"><a href="privacy.html">隱私權保護與資訊安全政策</a></div>
+					<div><a href="tos.html">服務條款</a></div>
+					<div class="footer-item">© 2015 中華開放教育平台，保留部分權利</div>
+					<div class="footer-item">
+						<a href="http://openedx.org"> <img
+							src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag-light.png"
+							width="75" height="25" alt="Powered by Open edX">
+						</a>
+					</div>
+				</div>				
+				<div class="col-md-2">
+					<div class="footer-item" style="font-size: 150%;">關於</div>
+					<div class="footer-item"><a href="contact.html">聯絡我們</a></div>
+					<div class="footer-item"><a href="http://copeneduc.org/" target="_blank">中華開放教育聯盟</a></div>					
+				</div>
+				<div class="col-md-2">
+					<div class="footer-item" style="font-size: 150%;">Q&A</div>
+					<div class="footer-item"><a href="how.html">如何上課/開課</a></div>
+					<div class="footer-item"><a href="faq.html">常見問題</a></div>	
+					<div class="footer-item"><a href="guide.html">操作手冊</a></div>				
+				</div>
+				<div class="col-md-4" style="text-align:center;">
+					<iframe name="fcb92f2cc" width="280px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:page Facebook Social Plugin" src="https://www.facebook.com/v2.3/plugins/page.php?app_id=871146829598893&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FwjDNIDNrTQG.js%3Fversion%3D41%23cb%3Dfbb37c7ac%26domain%3Dwww.openedu.tw%26origin%3Dhttps%253A%252F%252Fwww.openedu.tw%252Ff3886fa868%26relation%3Dparent.parent&amp;container_width=270&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fopenedu.tw&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=false&amp;show_posts=false&amp;width=280" style="border: none; visibility: visible; width: 270px; height: 130px;" class=""></iframe>			
+				</div>
+			</div>
 		</div>
 
 	</div>
@@ -311,7 +355,7 @@ a:active {
 							$(window).bind("resize", ScaleSlider);
 							$(window).bind("orientationchange", ScaleSlider);
 							//responsive code end
-						});		
+						});
 	</script>
 </body>
 </html>

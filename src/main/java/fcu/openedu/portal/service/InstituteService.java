@@ -1,5 +1,6 @@
 package fcu.openedu.portal.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -47,7 +48,8 @@ public class InstituteService {
 		List<InstituteDto> lsDInstitutes = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(lsMInstitutes))
 			for(School school: lsMInstitutes)
-				lsDInstitutes.add(transformModelToDto(school));
+				lsDInstitutes.add(transformModelToDto(school));	
+		Collections.sort(lsDInstitutes);
 		return lsDInstitutes;
 	}
 	
