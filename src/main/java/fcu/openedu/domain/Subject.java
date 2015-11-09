@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
  * 
  * @generated
  */
-@Entity(name = "Subject")
+@Entity(name = "subject")
 public class Subject {
 
 	/**

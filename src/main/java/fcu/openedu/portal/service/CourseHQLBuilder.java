@@ -6,7 +6,7 @@ public class CourseHQLBuilder {
 		
 		public static String build(Map<HQLStatement, String> mParams)
 		{
-			StringBuilder sb = new StringBuilder("select distinct course from Course as course"); 
+			StringBuilder sb = new StringBuilder("select distinct course from course as course"); 
 			for(Map.Entry<HQLStatement, String> entry: mParams.entrySet())
 				sb.append(" " + entry.getKey().getJoinStatement());
 			

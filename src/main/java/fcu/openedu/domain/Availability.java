@@ -12,7 +12,7 @@ import javax.persistence.Id;
  * 
  * @generated
  */
-@Entity(name = "Availability")
+@Entity(name = "availability")
 public class Availability {
 
 	/**

@@ -20,7 +20,7 @@ import org.hibernate.annotations.FetchMode;
  * 
  * @generated
  */
-@Entity(name = "Instructor")
+@Entity(name = "instructor")
 public class Instructor {
 
 	/**

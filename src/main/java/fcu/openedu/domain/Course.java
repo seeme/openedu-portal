@@ -24,7 +24,7 @@ import org.hibernate.annotations.FetchMode;
  * 
  * @generated
  */
-@Entity(name = "Course")
+@Entity(name = "course")
 public class Course {
 
 	/**

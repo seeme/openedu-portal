@@ -12,7 +12,7 @@ import javax.persistence.Id;
  * 
  * @generated
  */
-@Entity(name = "School")
+@Entity(name = "school")
 public class School {
 
 	/**
