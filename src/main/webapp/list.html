@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>中華開放教育平台</title>
+<meta charset="UTF-8">
+<title>中華開放教育平台</title>
 
-	<link rel="shortcut icon"
+<link rel="shortcut icon"
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet"
+<link rel="stylesheet" href="css/openedu.css">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
+
+<link rel="stylesheet"
+	href="css/bootstrap-3.3.5/css/sticky-footer-navbar.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
 	href="css/bootstrap-3.3.5/css/bootstrap-theme.min.css">
 
 <style>
-body {
-	padding-top: 70px;
-	font-family: "Helvetica Neue", Helvetica, Arial, "微軟正黑體", "微软雅黑";
-}
-
-.navbar-nav>li>a {
-	padding-top: 20px !important;
-	padding-bottom: 20px !important;
-}
-
-.navbar {
-	min-height: 60px !important
-}
-
 .course-available {
 	text-align: left;
 	padding-top: 15px;
@@ -80,135 +72,140 @@ body {
 }
 </style>
 
-    <script src="script/jquery-2.1.4.min.js"></script>
-	<!-- Latest compiled and minified JavaScript -->
-	<script
-	src="css/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script>
-
+<script src="script/jquery-2.1.4.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="css/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
 	var currentCourses = [];
 	var soonCourses = [];
 	var mobileCourses = [];
 	var selfCourses = [];
 	var constantInsitute = 'institute';
-	
+
 	var instituteId = getInstituteId();
-	var queryByInstituteURL =  "rest/courses/query";
-	if(instituteId != '')
+	var queryByInstituteURL = "rest/courses/query";
+	if (instituteId != '')
 		queryByInstituteURL = queryByInstituteURL + '?institute=' + instituteId;
 
-	jQuery(document).ready(function($) {
-		
-		$.ajax({
-			url : "rest/categories/list",
-			type : "GET",
-			dataType : "json",
-			success : function(data) {
-				for ( var i = 0; i < data.length; i++ ) {
-					$("#course-select-category").append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-				}
-			},
+	jQuery(document).ready(
+			function($) {
 
-			error : function() {
-				alert("ERROR!!!");
-			}
-		});
+				$.ajax({
+					url : "rest/categories/list",
+					type : "GET",
+					dataType : "json",
+					success : function(data) {
+						for (var i = 0; i < data.length; i++) {
+							$("#course-select-category").append(
+									'<option value="' + data[i].id + '">'
+											+ data[i].name + '</option>');
+						}
+					},
 
-		$.ajax({
-			url : "rest/institutes/list",
-			type : "GET",
-			dataType : "json",
-			success : function(data) {
-				for ( var i = 0; i < data.length; i++ ) {
-					if(data[i].id == instituteId)
-						$("#course-select-institute").append('<option value="' + data[i].id + '" selected>' + data[i].name + '</option>');
-					else
-						$("#course-select-institute").append('<option value="' + data[i].id + '">' + data[i].name + '</option>');		
-				}
-			},
+					error : function() {
+						alert("ERROR!!!");
+					}
+				});
 
-			error : function() {
-				alert("ERROR!!!");
-			}
-		});
-		
-		$.ajax({
-			url : queryByInstituteURL,
-			type : "GET",
-			dataType : "json",
-			success : function(data) {
-				groupCourses(data);
-				renderCourses();
-			},
+				$.ajax({
+					url : "rest/institutes/list",
+					type : "GET",
+					dataType : "json",
+					success : function(data) {
+						for (var i = 0; i < data.length; i++) {
+							if (data[i].id == instituteId)
+								$("#course-select-institute").append(
+										'<option value="' + data[i].id + '" selected>'
+												+ data[i].name + '</option>');
+							else
+								$("#course-select-institute").append(
+										'<option value="' + data[i].id + '">'
+												+ data[i].name + '</option>');
+						}
+					},
 
-			error : function() {
-				alert("ERROR!!!");
-			}
-		});
+					error : function() {
+						alert("ERROR!!!");
+					}
+				});
 
-		$("#btn-filter").click(function(){
-			var category = getCategory();
-			var institute = getInstitute();
-			var availability = getAvailability();
-			var mobile = getMobile();
-			var keyword = getKeyword();
-			var path = "rest/courses/query?" + category + institute + availability + mobile + keyword;
-			$.ajax({
-				url : path,
-				type : "GET",
-				dataType : "json",
-				success : function(data) {
-					clean();
-					groupCourses(data);
-					renderCourses();
-				},
+				$.ajax({
+					url : queryByInstituteURL,
+					type : "GET",
+					dataType : "json",
+					success : function(data) {
+						groupCourses(data);
+						renderCourses();
+					},
 
-				error : function() {
-					alert("ERROR!!!");
-				}
+					error : function() {
+						alert("ERROR!!!");
+					}
+				});
+
+				$("#btn-filter").click(
+						function() {
+							var category = getCategory();
+							var institute = getInstitute();
+							var availability = getAvailability();
+							var mobile = getMobile();
+							var keyword = getKeyword();
+							var path = "rest/courses/query?" + category
+									+ institute + availability + mobile
+									+ keyword;
+							$.ajax({
+								url : path,
+								type : "GET",
+								dataType : "json",
+								success : function(data) {
+									clean();
+									groupCourses(data);
+									renderCourses();
+								},
+
+								error : function() {
+									alert("ERROR!!!");
+								}
+							});
+						});
+
 			});
-		});
 
-	});
-
-	function groupCourses(courses)
-	{
+	function groupCourses(courses) {
 		var i;
-		for(i = 0; i < courses.length; i++)
-		{
+		for (i = 0; i < courses.length; i++) {
 			var course = courses[i];
-			if(course.available == "Current" && !course.mobile)
-			currentCourses.push(course);
-			if(course.available == "Soon" && !course.mobile)
-			soonCourses.push(course);
-			if((course.available == 'Current' || course.available == 'Self')  && course.mobile)
-			mobileCourses.push(course);
-			if(course.available == "Self")
-			selfCourses.push(course);
+			if (course.available == "Current" && !course.mobile)
+				currentCourses.push(course);
+			if (course.available == "Soon" && !course.mobile)
+				soonCourses.push(course);
+			if ((course.available == 'Current' || course.available == 'Self')
+					&& course.mobile)
+				mobileCourses.push(course);
+			if (course.available == "Self")
+				selfCourses.push(course);
 		}
 	}
 
-	function renderCourses()
-	{
+	function renderCourses() {
 		var courseBlock = $('#course-blocks')
-		if(currentCourses.length > 0)
-		renderCourseGroup(courseBlock, '開課中課程', currentCourses);
+		if (currentCourses.length > 0)
+			renderCourseGroup(courseBlock, '開課中課程', currentCourses);
 
-		if(soonCourses.length > 0)
-		renderCourseGroup(courseBlock, '即將開課', soonCourses);
+		if (soonCourses.length > 0)
+			renderCourseGroup(courseBlock, '即將開課', soonCourses);
 
-		if(mobileCourses.length > 0)
-		renderCourseGroup(courseBlock, '行動課程', mobileCourses);
+		if (mobileCourses.length > 0)
+			renderCourseGroup(courseBlock, '行動課程', mobileCourses);
 
-		if(selfCourses.length > 0)
-		renderCourseGroup(courseBlock, '自學課程', selfCourses);
+		if (selfCourses.length > 0)
+			renderCourseGroup(courseBlock, '自學課程', selfCourses);
 	}
 
-	function renderCourseGroup(courseBlock, availability, courses)
-	{
+	function renderCourseGroup(courseBlock, availability, courses) {
 		var h = document.createElement('h3');
 		$(h).html(availability);
-		$(h).attr('class','course-available');
+		$(h).attr('class', 'course-available');
 		courseBlock.append(h);
 
 		var row = document.createElement('div');
@@ -216,97 +213,88 @@ body {
 		courseBlock.append(row);
 
 		var i;
-		for(i = 0; i < courses.length; i++)
-		{
-			var data = 	courses[i];
-			var inner = '<div class="col-md-3">' +
-			'<div class="course-box">'  +
-			'<div class="course-desc course-univ">' + data.courseOffer + '</div>' +
-			'<div>' +
-			'<a href="course.html?id=' + data.id + '"><img src="' +data.thumbURL + '" class="img-responsive"></a>' +
-			'</div>' +
-			'<div class="course-desc course-name">' + data.courseName + '</div>'  +
-			'<div class="course-desc">' + data.courseDuration + '</div>' +
-			'<div class="course-desc">' +
-			'<span class="course-category-span">' + data.courseCategory+ '</span>' +
-			'</div>' +
-			'</div>' +
-			'</div>';
+		for (i = 0; i < courses.length; i++) {
+			var data = courses[i];
+			var inner = '<div class="col-md-3">'
+					+ '<div class="course-box">'
+					+ '<div class="course-desc course-univ">'
+					+ data.courseOffer
+					+ '</div>'
+					+ '<div>'
+					+ '<a href="course.html?id='
+					+ data.id
+					+ '"><img src="' +data.thumbURL + '" class="img-responsive"></a>'
+					+ '</div>' + '<div class="course-desc course-name">'
+					+ data.courseName + '</div>' + '<div class="course-desc">'
+					+ data.courseDuration + '</div>'
+					+ '<div class="course-desc">'
+					+ '<span class="course-category-span">'
+					+ data.courseCategory + '</span>' + '</div>' + '</div>'
+					+ '</div>';
 			$(row).append(inner);
 		}
 	}
 
-	function getCategory()
-	{
+	function getCategory() {
 		var value = $("#course-select-category").val();
-		if(value != '-1' && value != null)
-		return '&category='+value;
+		if (value != '-1' && value != null)
+			return '&category=' + value;
 		return '';
 	}
 
-	function getInstitute()
-	{
+	function getInstitute() {
 		var value = $("#course-select-institute").val();
-		if(value != '-1' && value != null)
-		return '&institute='+value;
+		if (value != '-1' && value != null)
+			return '&institute=' + value;
 		return '';
 	}
 
-	function getAvailability()
-	{
+	function getAvailability() {
 		var value = $("#course-select-availability").val();
-		if(value != '-1' && value != null)
-		return '&availability='+value;
+		if (value != '-1' && value != null)
+			return '&availability=' + value;
 		return '';
 	}
 
-	function getMobile()
-	{
+	function getMobile() {
 		var value = $("#course-select-mobile").val();
-		if(value != '-1' && value != null)
-		return '&mobile='+value;
+		if (value != '-1' && value != null)
+			return '&mobile=' + value;
 		return '';
 	}
 
-	function getKeyword()
-	{
+	function getKeyword() {
 		var value = $("#course-keyword").val().trim();
-		if(value != '')
-		return '&keyword='+value;
+		if (value != '')
+			return '&keyword=' + value;
 		return value;
 	}
 
-
-	function clean()
-	{
+	function clean() {
 		currentCourses = [];
 		soonCourses = [];
 		mobileCourses = [];
 		selfCourses = [];
 		$('#course-blocks').html('');
 	}
-	
-	function getInstituteId()
-	{
+
+	function getInstituteId() {
 		var url = document.location.href;
 		var mainurl = url.split('?');
-		if(mainurl.length == 1)
+		if (mainurl.length == 1)
 			return '';
-		var params =  mainurl[1].split('&');
-		if(params.length > 0)
-		{
-			var i ;
-			for(i = 0; i < params.length; i++)
-			{
+		var params = mainurl[1].split('&');
+		if (params.length > 0) {
+			var i;
+			for (i = 0; i < params.length; i++) {
 				var key = params[i].split('=')[0];
-				if(key == constantInsitute)
+				if (key == constantInsitute)
 					return params[i].split('=')[1];
 			}
 		}
 		return '';
 	}
-
-	</script>
+</script>
 
 </head>
 <body>
@@ -314,14 +302,14 @@ body {
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span> <span
-				class="icon-bar"></span> <span class="icon-bar"></span> <span
-				class="icon-bar"></span>
-			</button>
-			<a href="./"><img src="img/OpeneduTWLogo.png"
-				style="max-height: 50px; margin-top: 5px;"></a>
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a href="./"><img src="img/OpeneduTWLogo.png"
+					style="max-height: 50px; margin-top: 5px;"></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -329,55 +317,55 @@ body {
 					<li><a href="institute.html">學校機構</a></li>
 					<li><a
 						href="https://courses.openedu.tw/accounts/login?next=/dashboard">我的課程</a></li>
-					</ul>
-				</div>
+				</ul>
 			</div>
-		</nav>
+		</div>
+	</nav>
 
+	<div id="list" style="margin-top: 10px;">
 		<div class="container">
-
 			<div id="course-filters">
 				<div class="row">
 					<div class="col-md-2">
 						<label class="filter-label">課程分類</label>
-						<div class="form-group">							
-							<select class="form-control" id="course-select-category">								
-								<option value="-1" >全部</option>
+						<div class="form-group">
+							<select class="form-control" id="course-select-category">
+								<option value="-1">全部</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<label class="filter-label">開課學校</label>
-						<div class="form-group">							
-							<select class="form-control" id="course-select-institute">								
-								<option value="-1" >全部</option>
+						<div class="form-group">
+							<select class="form-control" id="course-select-institute">
+								<option value="-1">全部</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<label class="filter-label">行動課程</label>
-						<div class="form-group">							
-							<select class="form-control" id="course-select-mobile">								
-								<option value="-1" >全部</option>
-								<option value="true" >是</option>
-								<option value="false" >否</option>
+						<div class="form-group">
+							<select class="form-control" id="course-select-mobile">
+								<option value="-1">全部</option>
+								<option value="true">是</option>
+								<option value="false">否</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<label class="filter-label">課程狀態</label>
-						<div class="form-group">							
-							<select class="form-control" id="course-select-availability">								
-								<option value="-1" >全部</option>
-								<option value="Current" >開課中</option>
-								<option value="Soon" >即將開課</option>
-								<option value="Self" >自學課程</option>
+						<div class="form-group">
+							<select class="form-control" id="course-select-availability">
+								<option value="-1">全部</option>
+								<option value="Current">開課中</option>
+								<option value="Soon">即將開課</option>
+								<option value="Self">自學課程</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<label class="filter-label">關鍵字</label>
-						<div class="input-group">							
+						<div class="input-group">
 							<input type="text" class="form-control" id="course-keyword">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" id="btn-filter">Go!</button>
@@ -387,39 +375,61 @@ body {
 				</div>
 			</div>
 
-			<div id="course-blocks">
-			</div>
+			<div id="course-blocks"></div>
 
-		<div class="footer" style="border-top:1px solid lightgray;padding:20px;background-color:#DCDCDC;">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="footer-item"><a href="privacy.html">隱私權保護與資訊安全政策</a></div>
-					<div><a href="tos.html">服務條款</a></div>
-					<div class="footer-item">© 2015 中華開放教育平台，保留部分權利</div>
-					<div class="footer-item">
-						<a href="http://openedx.org"> <img
-							src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag-light.png"
-							width="75" height="25" alt="Powered by Open edX">
-						</a>
+		</div>
+
+		<div class="footer">
+			<div class="container" style="margin-top: 10px;">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="footer-item">
+							<a href="privacy.html">隱私權保護與資訊安全政策</a>
+						</div>
+						<div>
+							<a href="tos.html">服務條款</a>
+						</div>
+						<div class="footer-item">© 2015 中華開放教育平台，保留部分權利</div>
+						<div class="footer-item">
+							<a href="http://openedx.org"> <img
+								src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag-light.png"
+								width="75" height="25" alt="Powered by Open edX">
+							</a>
+						</div>
 					</div>
-				</div>				
-				<div class="col-md-2">
-					<div class="footer-item" style="font-size: 150%;">關於</div>
-					<div class="footer-item"><a href="contact.html">聯絡我們</a></div>
-					<div class="footer-item"><a href="http://copeneduc.org/" target="_blank">中華開放教育聯盟</a></div>					
-				</div>
-				<div class="col-md-2">
-					<div class="footer-item" style="font-size: 150%;">Q&A</div>
-					<div class="footer-item"><a href="how.html">如何上課/開課</a></div>
-					<div class="footer-item"><a href="faq.html">常見問題</a></div>	
-					<div class="footer-item"><a href="guide.html">操作手冊</a></div>				
-				</div>
-				<div class="col-md-4" style="text-align:center;">
-					<iframe name="fcb92f2cc" width="280px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:page Facebook Social Plugin" src="https://www.facebook.com/v2.3/plugins/page.php?app_id=871146829598893&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FwjDNIDNrTQG.js%3Fversion%3D41%23cb%3Dfbb37c7ac%26domain%3Dwww.openedu.tw%26origin%3Dhttps%253A%252F%252Fwww.openedu.tw%252Ff3886fa868%26relation%3Dparent.parent&amp;container_width=270&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fopenedu.tw&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=false&amp;show_posts=false&amp;width=280" style="border: none; visibility: visible; width: 270px; height: 130px;" class=""></iframe>			
+					<div class="col-md-2">
+						<div class="footer-item" style="font-size: 150%;">關於</div>
+						<div class="footer-item">
+							<a href="contact.html">聯絡我們</a>
+						</div>
+						<div class="footer-item">
+							<a href="http://copeneduc.org/" target="_blank">中華開放教育聯盟</a>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-item" style="font-size: 150%;">Q&A</div>
+						<div class="footer-item">
+							<a href="how.html">如何上課/開課</a>
+						</div>
+						<div class="footer-item">
+							<a href="faq.html">常見問題</a>
+						</div>
+						<div class="footer-item">
+							<a href="guide.html">操作手冊</a>
+						</div>
+					</div>
+					<div class="col-md-4" style="text-align: center;">
+						<iframe name="fcb92f2cc" width="280px" height="1000px"
+							frameborder="0" allowtransparency="true" allowfullscreen="true"
+							scrolling="no" title="fb:page Facebook Social Plugin"
+							src="https://www.facebook.com/v2.3/plugins/page.php?app_id=871146829598893&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FwjDNIDNrTQG.js%3Fversion%3D41%23cb%3Dfbb37c7ac%26domain%3Dwww.openedu.tw%26origin%3Dhttps%253A%252F%252Fwww.openedu.tw%252Ff3886fa868%26relation%3Dparent.parent&amp;container_width=270&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fopenedu.tw&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=false&amp;show_posts=false&amp;width=280"
+							style="border: none; visibility: visible; width: 270px; height: 130px;"
+							class=""></iframe>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		</div>
-	</body>
-	</html>
+	</div>
+</body>
+</html>

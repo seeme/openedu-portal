@@ -7,8 +7,13 @@
 <link rel="shortcut icon"
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
+<link rel="stylesheet" href="css/openedu.css">
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
+
+<link rel="stylesheet"
+	href="css/bootstrap-3.3.5/css/sticky-footer-navbar.css">
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -16,45 +21,6 @@
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="css/bootstrap-3.3.5/css/bootstrap-theme.min.css">
-
-<style>
-body {
-	padding-top: 70px;
-	font-family: "Helvetica Neue", Helvetica, Arial, "微軟正黑體", "微软雅黑";
-}
-
-.navbar-nav>li>a {
-	padding-top: 20px !important;
-	padding-bottom: 20px !important;
-}
-
-.navbar {
-	min-height: 60px !important
-}
-
-.institute-logo {
-	margin: 5px;
-	padding: 10px;
-}
-
-.p-item {
-	margin-top: 30px;
-	margin-bottom: 10px;
-}
-</style>
-
-<script src="script/jquery-2.1.4.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script
-	src="css/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="script/jssor.slider.min.js"></script>
-<script>
-	jQuery(document).ready(function($) {
-
-	});
-</script>
-
-
 
 </head>
 <body>
@@ -85,57 +51,107 @@ body {
 
 	<div style="background-color: #89A4BF;">
 		<div class="container">
-			<div class="row">				
+			<div class="row">
 				<div class="col-md-12">
 					<h3 id="course-name" style="color: white;">如何開課</h3>
-				</div>				
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="container" style="margin-top:20px;">
+	<div id="how">
+		<div class="container" style="margin-top: 20px;">
+			<ul style="font-size: 125%; margin-top: 15px; margin-bottom: 15px;">
+				<li><a href="https://www.openedu.tw/apply-org/">加入聯盟</a>，成為中華開放教育聯盟的成員後就可以本平台開課。我們歡迎各學校/法人、科技部或教育部專案、或民間團體加入本聯盟。加入聯盟可能需要一些時程，建議您可以到我們的<a
+					href="https://studio.sandbox.openedu.tw/">練習平台</a>進行課程練習設計，您可以藉此了解課程設計的操作。</li>
+				<li>加入聯盟後即可<a href="https://www.openedu.tw/apply-course/">申請課程</a>。我們會檢驗您的課程基本資料是否完整、學校機構是否同意此課程。課程申請通過後授課教師可以在<a
+					href="https://studio.edge.openedu.tw/">edge</a>平台上進行課程的預先設計，累積兩週的教材後就可以提出
+					課程上架。
+				</li>
+				<li>課程上架通過後，我們會將您在edge平台上的內容轉移到<a
+					href="https://studio.openedu.tw/">正式平台</a>，但這並不是課程發佈，您可以在正式平台繼續設計你的課程，安排每一個單元的發佈。
+				</li>
+			</ul>
 
-		<ul style="font-size: 125%; margin-top:15px; margin-bottom:15px;">
-			<li><a href="https://www.openedu.tw/apply-org/">加入聯盟</a>，成為中華開放教育聯盟的成員後就可以本平台開課。我們歡迎各學校/法人、科技部或教育部專案、或民間團體加入本聯盟。加入聯盟可能需要一些時程，建議您可以到我們的<a
-				href="https://studio.sandbox.openedu.tw/">練習平台</a>進行課程練習設計，您可以藉此了解課程設計的操作。</li>
-			<li>加入聯盟後即可<a href="https://www.openedu.tw/apply-course/">申請課程</a>。我們會檢驗您的課程基本資料是否完整、學校機構是否同意此課程。課程申請通過後授課教師可以在<a
-				href="https://studio.edge.openedu.tw/">edge</a>平台上進行課程的預先設計，累積兩週的教材後就可以提出
-				課程上架。
-			</li>
-			<li>課程上架通過後，我們會將您在edge平台上的內容轉移到<a
-				href="https://studio.openedu.tw/">正式平台</a>，但這並不是課程發佈，您可以在正式平台繼續設計你的課程，安排每一個單元的發佈。
-			</li>
-		</ul>
-
-		<table class="table table-hover table-bordered">
-			<thead>
-				<tr>
-					<th></th>
-					<th>教師Studio 平台</th>
-					<th>學生學習平台</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>課程設計練習(sandbox)</td>
-					<td><a href="https://studio.sandbox.openedu.tw">https://studio.sandbox.openedu.tw</a></td>
-					<td><a href="https://sandbox.openedu.tw">https://sandbox.openedu.tw</a></td>
-				</tr>
-				<tr>
-					<td>教材草擬設計(edge)</td>
-					<td><a href="https://studio.edge.openedu.tw">https://studio.edge.openedu.tw</a></td>
-					<td><a href="https://edge.openedu.tw/">https://edge.openedu.tw/</a></td>
-				</tr>
-				<tr>
-					<td>正式課程設計</td>
-					<td><a href="https://studio.openedu.tw">https://studio.openedu.tw</a></td>
-					<td><a href="https://openedu.tw">https://openedu.tw</a></td>
-				</tr>
-			</tbody>
-		</table>
-
-
-
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th></th>
+						<th>教師Studio 平台</th>
+						<th>學生學習平台</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>課程設計練習(sandbox)</td>
+						<td><a href="https://studio.sandbox.openedu.tw">https://studio.sandbox.openedu.tw</a></td>
+						<td><a href="https://sandbox.openedu.tw">https://sandbox.openedu.tw</a></td>
+					</tr>
+					<tr>
+						<td>教材草擬設計(edge)</td>
+						<td><a href="https://studio.edge.openedu.tw">https://studio.edge.openedu.tw</a></td>
+						<td><a href="https://edge.openedu.tw/">https://edge.openedu.tw/</a></td>
+					</tr>
+					<tr>
+						<td>正式課程設計</td>
+						<td><a href="https://studio.openedu.tw">https://studio.openedu.tw</a></td>
+						<td><a href="https://openedu.tw">https://openedu.tw</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="footer">
+			<div class="container" style="margin-top: 10px;">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="footer-item">
+							<a href="privacy.html">隱私權保護與資訊安全政策</a>
+						</div>
+						<div>
+							<a href="tos.html">服務條款</a>
+						</div>
+						<div class="footer-item">© 2015 中華開放教育平台，保留部分權利</div>
+						<div class="footer-item">
+							<a href="http://openedx.org"> <img
+								src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag-light.png"
+								width="75" height="25" alt="Powered by Open edX">
+							</a>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-item" style="font-size: 150%;">關於</div>
+						<div class="footer-item">
+							<a href="contact.html">聯絡我們</a>
+						</div>
+						<div class="footer-item">
+							<a href="http://copeneduc.org/" target="_blank">中華開放教育聯盟</a>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-item" style="font-size: 150%;">Q&A</div>
+						<div class="footer-item">
+							<a href="how.html">如何上課/開課</a>
+						</div>
+						<div class="footer-item">
+							<a href="faq.html">常見問題</a>
+						</div>
+						<div class="footer-item">
+							<a href="guide.html">操作手冊</a>
+						</div>
+					</div>
+					<div class="col-md-4" style="text-align: center;">
+						<iframe name="fcb92f2cc" width="280px" height="1000px"
+							frameborder="0" allowtransparency="true" allowfullscreen="true"
+							scrolling="no" title="fb:page Facebook Social Plugin"
+							src="https://www.facebook.com/v2.3/plugins/page.php?app_id=871146829598893&amp;channel=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FwjDNIDNrTQG.js%3Fversion%3D41%23cb%3Dfbb37c7ac%26domain%3Dwww.openedu.tw%26origin%3Dhttps%253A%252F%252Fwww.openedu.tw%252Ff3886fa868%26relation%3Dparent.parent&amp;container_width=270&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fopenedu.tw&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=false&amp;show_posts=false&amp;width=280"
+							style="border: none; visibility: visible; width: 270px; height: 130px;"
+							class=""></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 </body>
 </html>
