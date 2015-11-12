@@ -2,83 +2,83 @@ package fcu.openedu.portal.domain;
 
 public class CourseShortInfoDto {
 
-	private String id;
-	
-	private String available;
+  private String id;
 
-	private String courseName;
+  private String available;
 
-	private String courseOffer;
+  private String courseName;
 
-	private String courseDuration;
-	
-	private String courseCategory;
-	
-	private String thumbURL;
-	
-	private boolean mobile;
+  private String courseOffer;
 
-	public String getId() {
-		return id;
-	}
+  private String courseDuration;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  private String courseCategory;
 
-	public String getCourseCategory() {
-		return courseCategory;
-	}
+  private String thumbURL;
 
-	public void setCourseCategory(String courseCategory) {
-		this.courseCategory = courseCategory;
-	}
+  private boolean mobile;
 
-	public String getAvailable() {
-		return available;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setAvailable(String available) {
-		this.available = available;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public String getCourseName() {
-		return courseName;
-	}
+  public String getCourseCategory() {
+    return courseCategory;
+  }
 
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
+  public void setCourseCategory(String courseCategory) {
+    this.courseCategory = courseCategory;
+  }
 
-	public String getCourseOffer() {
-		return courseOffer;
-	}
+  public String getAvailable() {
+    return available;
+  }
 
-	public void setCourseOffer(String courseUniv) {
-		this.courseOffer = courseUniv;
-	}
+  public void setAvailable(String available) {
+    this.available = available;
+  }
 
-	public String getCourseDuration() {
-		return courseDuration;
-	}
+  public String getCourseName() {
+    return courseName;
+  }
 
-	public void setCourseDuration(String courseDuration) {
-		this.courseDuration = courseDuration;
-	}
+  public void setCourseName(String courseName) {
+    this.courseName = courseName;
+  }
 
-	public String getThumbURL() {
-		return thumbURL;
-	}
+  public String getCourseOffer() {
+    return courseOffer;
+  }
 
-	public void setThumbURL(String thumbURL) {
-		this.thumbURL = thumbURL;
-	}
+  public void setCourseOffer(String courseUniv) {
+    this.courseOffer = courseUniv;
+  }
 
-	public boolean isMobile() {
-		return mobile;
-	}
+  public String getCourseDuration() {
+    return courseDuration;
+  }
 
-	public void setMobile(boolean mobile) {
-		this.mobile = mobile;
-	}
+  public void setCourseDuration(String courseDuration) {
+    this.courseDuration = courseDuration;
+  }
+
+  public String getThumbURL() {
+    return thumbURL;
+  }
+
+  public void setThumbURL(String thumbURL) {
+    this.thumbURL = thumbURL;
+  }
+
+  public boolean isMobile() {
+    return mobile;
+  }
+
+  public void setMobile(boolean mobile) {
+    this.mobile = mobile;
+  }
 }

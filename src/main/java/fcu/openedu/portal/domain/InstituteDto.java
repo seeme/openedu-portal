@@ -5,36 +5,36 @@ import java.text.Collator;
 import java.util.Comparator;
 
 @SuppressWarnings("serial")
-public class InstituteDto implements Serializable, Comparable<InstituteDto> 
-{
-	@SuppressWarnings("rawtypes")
-	private final static Comparator TW_COMPARE = Collator.getInstance(java.util.Locale.CHINESE);
-	
-	private int id;
-	
-	private String name;
+public class InstituteDto implements Serializable, Comparable<InstituteDto> {
+  
+  @SuppressWarnings("rawtypes")
+  private final static Comparator TW_COMPARE = Collator.getInstance(java.util.Locale.CHINESE);
 
-	public int getId() {
-		return id;
-	}
+  private int id;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  private String name;
 
-	public String getName() {
-		return name;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public int compareTo(InstituteDto o) {		
-		return getName().compareTo(o.getName());
-	}
-	
-	
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public int compareTo(InstituteDto o) {
+    return getName().compareTo(o.getName());
+  }
+
+
 }
