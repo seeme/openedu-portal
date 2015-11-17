@@ -186,6 +186,22 @@ public class Course {
 	 */
 	@Basic()
 	private String link = "";
+	
+	  /**
+	   * <!-- begin-user-doc --> <!-- end-user-doc -->
+	   * 
+	   * @generated
+	   */
+	  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	  private Language language = null;
+
+	  /**
+	   * <!-- begin-user-doc --> <!-- end-user-doc -->
+	   * 
+	   * @generated
+	   */
+	  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	  private Transcript transcript = null;
 
 	/**
 	 * Returns the value of '<em><b>cid</b></em>' feature.
@@ -677,7 +693,55 @@ public class Course {
 	public void setLink(String newLink) {
 		link = newLink;
 	}
+	
+	  /**
+	   * Returns the value of '<em><b>language</b></em>' feature.
+	   *
+	   * <!-- begin-user-doc --> <!-- end-user-doc -->
+	   * 
+	   * @return the value of '<em><b>language</b></em>' feature
+	   * @generated
+	   */
+	  public Language getLanguage() {
+	    return language;
+	  }
 
+	  /**
+	   * Sets the '{@link Course#getLanguage() <em>language</em>}' feature.
+	   *
+	   * <!-- begin-user-doc --> <!-- end-user-doc -->
+	   * 
+	   * @param newLanguage the new value of the '{@link Course#getLanguage() language}' feature.
+	   * @generated
+	   */
+	  public void setLanguage(Language newLanguage) {
+	    language = newLanguage;
+	  }
+
+	  /**
+	   * Returns the value of '<em><b>transcript</b></em>' feature.
+	   *
+	   * <!-- begin-user-doc --> <!-- end-user-doc -->
+	   * 
+	   * @return the value of '<em><b>transcript</b></em>' feature
+	   * @generated
+	   */
+	  public Transcript getTranscript() {
+	    return transcript;
+	  }
+
+	  /**
+	   * Sets the '{@link Course#getTranscript() <em>transcript</em>}' feature.
+	   *
+	   * <!-- begin-user-doc --> <!-- end-user-doc -->
+	   * 
+	   * @param newTranscript the new value of the '{@link Course#getTranscript() transcript}' feature.
+	   * @generated
+	   */
+	  public void setTranscript(Transcript newTranscript) {
+	    transcript = newTranscript;
+	  }
+	  
 	/**
 	 * A toString method which prints the values of all EAttributes of this
 	 * instance. <!-- begin-user-doc --> <!-- end-user-doc -->

@@ -45,6 +45,10 @@ public class CourseCompleteInfoDto implements Serializable {
   private String videoURL = null;
 
   private String link = "";
+  
+  private String language;
+  
+  private String transcript;
 
   public String getCid() {
     return cid;
@@ -204,5 +208,21 @@ public class CourseCompleteInfoDto implements Serializable {
 
   public void setInstructors(List<InstructorDto> instructors) {
     this.instructors = instructors;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
+  public String getTranscript() {
+    return transcript;
+  }
+
+  public void setTranscript(String transcript) {
+    this.transcript = transcript;
   }
 }

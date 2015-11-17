@@ -87,6 +87,8 @@
 				$("#category").html(data.categories);
 				$("#course-weeks").html(data.length);
 				$("#course-startdate").html(data.startDate);
+				$("#course-language").html(data.language);
+				$("#course-transcript").html(data.transcript);
 				enableBtn(data.availability, data.link);
 				setVideo(data.videoURL);
 				loadInstructors(data.instructors);
@@ -225,11 +227,23 @@
 									</div>
 									<div class="col-md-8" id="course-startdate"></div>
 								</div>
-								<div class="row course-item-block ">
+								<div class="row course-item-block course-item-block-not-last">
 									<div class="col-md-4 course-item">
 										<i class="fa fa-hourglass-end"></i> 上課週數
 									</div>
 									<div class="col-md-8" id="course-weeks"></div>
+								</div>
+								<div class="row course-item-block course-item-block-not-last">
+									<div class="col-md-4 course-item">
+										<i class="fa fa-language"></i> 上課語言
+									</div>
+									<div class="col-md-8" id="course-language"></div>
+								</div>
+								<div class="row course-item-block ">
+									<div class="col-md-4 course-item">
+										<i class="fa fa-pencil"></i> 字幕語言
+									</div>
+									<div class="col-md-8" id="course-transcript"></div>
 								</div>
 
 							</div>

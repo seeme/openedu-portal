@@ -16,12 +16,15 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import fcu.openedu.domain.Category;
 import fcu.openedu.domain.Course;
 import fcu.openedu.domain.Instructor;
+import fcu.openedu.domain.Language;
 import fcu.openedu.domain.School;
+import fcu.openedu.domain.Transcript;
 import fcu.openedu.portal.domain.CourseCompleteInfoDto;
 import fcu.openedu.portal.domain.CourseShortInfoDto;
 import fcu.openedu.portal.domain.InstructorDto;
@@ -144,7 +147,25 @@ public class CourseService {
     dCourse.setVideoURL(mCourse.getVideoURL());
     dCourse.setInstructors(getInstructors(mCourse));
     dCourse.setLength(mCourse.getLength());
+    dCourse.setLanguage(getLanguage(mCourse));
+    dCourse.setTranscript(getTranscript(mCourse));
     return dCourse;
+  }
+  
+  private String getLanguage(Course course)
+  {
+    Language lang = course.getLanguage();
+    if(lang != null)
+      return Strings.nullToEmpty(lang.getName());
+    return "";
+  }
+  
+  private String getTranscript(Course course)
+  {
+    Transcript trnspt = course.getTranscript();
+    if(trnspt != null)
+      return Strings.nullToEmpty(trnspt.getName());
+    return "";
   }
 
   @Path("/query")
