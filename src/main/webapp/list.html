@@ -14,6 +14,9 @@
 
 <link rel="stylesheet"
 	href="css/bootstrap-3.3.5/css/sticky-footer-navbar.css">
+	
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <!-- Optional theme -->
 <link rel="stylesheet"
@@ -70,15 +73,28 @@
 .filter-label {
 	padding-left: 10px;
 }
+
+.mobile-circle {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	color: #fff;
+	line-height: 50px;
+	text-align: center;
+	background: #fc9a24;
+	padding-top: 3px;
+	position: absolute;
+	right: 3px;
+	top: 3px;
+}
 </style>
 
 <script src="script/jquery-2.1.4.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="css/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="css/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script>
 	var currentCourses = [];
 	var soonCourses = [];
-	var mobileCourses = [];
 	var selfCourses = [];
 	var constantInsitute = 'institute';
 
@@ -108,7 +124,7 @@
 				});
 
 				$.ajax({
-					url : "rest/institutes/list",
+					url : "rest/institutes/list/coursesenabled",
 					type : "GET",
 					dataType : "json",
 					success : function(data) {
@@ -175,13 +191,10 @@
 		var i;
 		for (i = 0; i < courses.length; i++) {
 			var course = courses[i];
-			if (course.available == "Current" && !course.mobile)
+			if (course.available == "Current")
 				currentCourses.push(course);
-			if (course.available == "Soon" && !course.mobile)
+			if (course.available == "Soon" )
 				soonCourses.push(course);
-			if ((course.available == 'Current' || course.available == 'Self')
-					&& course.mobile)
-				mobileCourses.push(course);
 			if (course.available == "Self")
 				selfCourses.push(course);
 		}
@@ -194,9 +207,6 @@
 
 		if (soonCourses.length > 0)
 			renderCourseGroup(courseBlock, '即將開課', soonCourses);
-
-		if (mobileCourses.length > 0)
-			renderCourseGroup(courseBlock, '行動課程', mobileCourses);
 
 		if (selfCourses.length > 0)
 			renderCourseGroup(courseBlock, '自學課程', selfCourses);
@@ -218,16 +228,33 @@
 			var inner = '<div class="col-md-3">'
 					+ '<div class="course-box">'
 					+ '<div class="course-desc course-univ">'
-					+ data.courseOffer
-					+ '</div>'
+					+ data.courseOffer;
+					
+					if (data.mobile) {
+						inner = inner + " (行動課程)";
+					}
+					
+					inner = inner + '</div>'
+					+ '<div style="position:relative">'
 					+ '<div>'
 					+ '<a href="course.html?id='
 					+ data.id
 					+ '"><img src="' +data.thumbURL + '" class="img-responsive"></a>'
-					+ '</div>' + '<div class="course-desc course-name">'
-					+ data.courseName + '</div>' + '<div class="course-desc">'
-					+ data.courseDuration + '</div>'
-					+ '<div class="course-desc">'
+					+ '</div>';
+					
+					if (data.mobile) {
+						inner = inner + '<div class="mobile-circle" title="行動課程">'
+								+ '<i class="fa fa-mobile fa-3x"></i></div>';
+					}
+					
+					inner = inner + '</div>' + '<div class="course-desc course-name">'
+					+ data.courseName + '</div>';
+					
+					if (data.available != 'Self') {
+						inner = inner + '<div class="course-desc">開課時間: ' + data.startDate +'</div>';
+					}
+					
+					inner = inner + '<div class="course-desc">'
 					+ '<span class="course-category-span">'
 					+ data.courseCategory + '</span>' + '</div>' + '</div>'
 					+ '</div>';
@@ -326,7 +353,7 @@
 		<div class="container">
 			<div id="course-filters">
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<label class="filter-label">課程分類</label>
 						<div class="form-group">
 							<select class="form-control" id="course-select-category">
@@ -334,7 +361,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<label class="filter-label">開課學校</label>
 						<div class="form-group">
 							<select class="form-control" id="course-select-institute">
@@ -342,17 +369,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<label class="filter-label">行動課程</label>
-						<div class="form-group">
-							<select class="form-control" id="course-select-mobile">
-								<option value="-1">全部</option>
-								<option value="true">是</option>
-								<option value="false">否</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<label class="filter-label">課程狀態</label>
 						<div class="form-group">
 							<select class="form-control" id="course-select-availability">
@@ -363,7 +380,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<label class="filter-label">關鍵字</label>
 						<div class="input-group">
 							<input type="text" class="form-control" id="course-keyword">

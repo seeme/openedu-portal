@@ -85,7 +85,7 @@
 				$("#course-prerequisite").html(data.descPrereq);
 				$("#institute").html(data.offers);
 				$("#category").html(data.categories);
-				$("#course-id").html(data.cid);
+				$("#course-weeks").html(data.length);
 				$("#course-startdate").html(data.startDate);
 				enableBtn(data.availability, data.link);
 				setVideo(data.videoURL);
@@ -212,17 +212,24 @@
 									</div>
 									<div class="col-md-8" id="category"></div>
 								</div>
-								<div class="row course-item-block course-item-block-not-last">
+								<!-- <div class="row course-item-block course-item-block-not-last">
 									<div class="col-md-4 course-item">
 										<i class="fa fa-list-ol"></i> 課程編號
 									</div>
 									<div class="col-md-8" id="course-id"></div>
 								</div>
-								<div class="row course-item-block ">
+								 -->
+								<div class="row course-item-block course-item-block-not-last">
 									<div class="col-md-4 course-item">
 										<i class="fa fa-calendar"></i> 開課日期
 									</div>
 									<div class="col-md-8" id="course-startdate"></div>
+								</div>
+								<div class="row course-item-block ">
+									<div class="col-md-4 course-item">
+										<i class="fa fa-hourglass-end"></i> 上課週數
+									</div>
+									<div class="col-md-8" id="course-weeks"></div>
 								</div>
 
 							</div>

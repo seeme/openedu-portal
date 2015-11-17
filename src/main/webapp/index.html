@@ -12,6 +12,12 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
 
+<!-- CSS for image slider -->
+<link rel="stylesheet" href="css/pgwslider.min.css">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <link rel="stylesheet"
 	href="css/bootstrap-3.3.5/css/sticky-footer-navbar.css">
 
@@ -22,22 +28,18 @@
 <style>
 a:link {
 	text-decoration: none;
-	color: black;
 }
 
 a:visited {
 	text-decoration: none;
-	color: black;
 }
 
 a:hover {
 	text-decoration: none;
-	color: #8B0000;
 }
 
 a:active {
 	text-decoration: none;
-	color: #8B0000;
 }
 
 .course-available {
@@ -77,90 +79,114 @@ a:active {
 .avail-separator {
 	padding-bottom: 50px;
 }
+
+.mobile-circle {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	color: #fff;
+	line-height: 50px;
+	text-align: center;
+	background: #fc9a24;
+	padding-top: 3px;
+	position: absolute;
+	right: 3px;
+	top: 3px;
 }
 </style>
 
 <script src="script/jquery-2.1.4.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="css/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="script/jssor.slider.min.js"></script>
+<script src="css/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<!-- Java script for image slider -->
+<script src="script/pgwslider.min.js"></script>
 <script>
-	jQuery(document)
-			.ready(
-					function($) {
+	var numCurrent = 0;
+	var numSoon = 0;
+	var numSelf = 0;
 
-						$("body").hide();
+	jQuery(document).ready(function($) {
 
-						var options = {
-							$AutoPlay : true
-						};
-						var jssor_slider1 = new $JssorSlider$(
-								'slider1_container', options);
+		//Used to set the offset when jumping to a bookmark target
+		var shiftWindow = function() {
+			scrollBy(0, -60)
+		};
+		if (location.hash)
+			shiftWindow();
+		window.addEventListener("hashchange", shiftWindow);
 
-						$.ajax({
-							url : "rest/courses/listShortInfo",
-							type : "GET",
-							dataType : "json",
-							success : function(data) {
-								for (var i = 0; i < data.length; i++) {
-									//if(data[i].available == 'Current')
-									//	addCurrentAvailableCourse( data[i]);
-									addCourse(data[i])
-								}
-								$("body").show();
-							},
+		//get the list of all available courses in an ajax manner
+		$('#home').hide();
+		$.ajax({
+			url : "rest/courses/listShortInfo",
+			type : "GET",
+			dataType : "json",
+			success : function(data) {
+				for (var i = 0; i < data.length; i++) {
+					addCourse(data[i])
+				}
+				showCourseNumbers();
+				$('#home').fadeIn();
+			},
 
-							error : function() {
-								alert("ERROR!!!");
-							}
-						});
+			error : function() {
+				alert("ERROR!!!");
+				$('#home').fadeIn();
+			}
+		});
 
-						function addCourse(data) {
-							//alert(data.courseOffer);
-							var inner = '<div class="col-md-3">'
-									+ '<div class="course-box" onmouseenter="courseOnMouseenter(this)" onmouseleave="courseOnMouseleave(this)">'
-									+ '<div class="course-desc course-univ">'
-									+ data.courseOffer
-									+ '</div>'
-									+ '<div>'
-									+ '<a href="course.html?id='
-									+ data.id
-									+ '"><img src="' +data.thumbURL + '" class="img-responsive"></a>'
-									+ '</div>'
-									+ '<div class="course-desc course-name"><a href="course.html?id='
-									+ data.id
-									+ '">'
-									+ data.courseName
-									+ '</a></div>'
-									+ '<div class="course-desc">'
-									+ data.courseDuration
-									+ '</div>'
-									+ '<div class="course-desc">'
-									+ '<span class="course-category-span">'
-									+ data.courseCategory
-									+ '</span>'
-									+ '</div>' + '</div>' + '</div>';
-							//$("#avail-current").append(inner);
-							appendCourse(inner, data.available, data.mobile);
-						}
+		$('.pgwSlider').pgwSlider({displayList : false, intervalDuration: 5000});
+	});
 
-						function appendCourse(inner, available, mobile) {
-							if (available == 'Current' && !mobile) {
-								$("#avail-current").append(inner);
-							}
-							if ((available == 'Current' || available == 'Self')
-									&& mobile) {
-								$("#avail-mobile").append(inner);
-							}
-							if (available == 'Soon') {
-								$("#avail-soon").append(inner);
-							}
-							if (available == 'Self') {
-								$("#avail-self").append(inner);
-							}
-						}
+	
+	function addCourse(data) {
+		var inner = '<div class="col-md-3">'
+				+ '<div class="course-box" onmouseenter="courseOnMouseenter(this)" onmouseleave="courseOnMouseleave(this)">'
+				+ '<div class="course-desc course-univ">' + data.courseOffer;
 
-					});
+		if (data.mobile) {
+			inner = inner + " (行動課程)";
+		}
+
+		inner = inner
+				+ '</div>'
+				+ '<div style="position:relative">'
+				+ '<div><a href="course.html?id='
+				+ data.id
+				+ '"><img src="' +data.thumbURL + '" class="img-responsive"></a></div>';
+		
+		if (data.mobile) {
+			inner = inner + '<div class="mobile-circle" title="行動課程">'
+					+ '<i class="fa fa-mobile fa-3x"></i></div>';
+		}
+		
+		inner = inner
+				+ '</div>'
+				+ '<div class="course-desc course-name"><a href="course.html?id='
+				+ data.id + '">' + data.courseName + '</a></div>';
+		if (data.available != 'Self') {
+			inner = inner + '<div class="course-desc">開課時間: ' + data.startDate
+					+ '</div>';
+		}
+		inner = inner + '<div class="course-desc">'
+				+ '<span class="course-category-span">' + data.courseCategory
+				+ '</span>' + '</div>' + '</div>' + '</div>';
+		appendCourse(inner, data.available, data.mobile);
+	}
+
+	function appendCourse(inner, available) {
+		if (available == 'Current') {
+			$("#avail-current").append(inner);
+			numCurrent++;
+		}
+		if (available == 'Soon') {
+			$("#avail-soon").append(inner);
+			numSoon++;
+		}
+		if (available == 'Self') {
+			$("#avail-self").append(inner);
+			numSelf++;
+		}
+	}
 
 	function courseOnMouseenter(elm) {
 		$(elm).attr('style', 'background-color: antiquewhite;');
@@ -168,6 +194,12 @@ a:active {
 
 	function courseOnMouseleave(elm) {
 		$(elm).attr('style', '');
+	}
+
+	function showCourseNumbers() {
+		$('#num-current').text(numCurrent);
+		$('#num-soon').text(numSoon);
+		$('#num-self').text(numSelf);
 	}
 </script>
 
@@ -200,50 +232,45 @@ a:active {
 		</div>
 	</nav>
 
-	<div id="home" style="margin-top:10px;">
+	<div style="background: #F5F5F5; padding: 10px;"> 
+	<!-- <div class="bg-primary" style="padding: 10px;">  -->
 		<div class="container">
-			<div class="row avail-separator">
-				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<div id="slider1_container"
-						style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
-						<!-- Slides Container -->
-						<div u="slides"
-							style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px; overflow: hidden;">
-							<div>
-								<img u="image" src2="img/slider-img/slider.jpg" />
-							</div>
-							<div>
-								<img u="image" src2="img/slider-img/slider1.jpg" />
-							</div>
-							<div>
-								<img u="image" src2="img/slider-img/slider2.jpg" />
-							</div>
-
-						</div>
+			<div class="row ">
+				<div class="col-md-9">
+					<ul class="pgwSlider">
+						<li><a href="course.html?id=10"></a><img src="img/slider-img/slider3.jpg" alt="台灣傳統糕餅文化與製作、創新" data-description="2015-11-06 開課"></li>
+						<li><a href="course.html?id=14"><img src="img/slider-img/slider1.jpg"  alt="創業九宮格" data-description="	2015-11-23 開課"></a></li>
+						<li><a href="course.html?id=12"><img src="img/slider-img/slider2.jpg" alt="大學普通物理實驗 – 手作坊" data-description="2015-9-28 開課"></a></li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<div class="list-group">
+						<a href="#bm-current" class="list-group-item">開課中課程 <span
+							class="pull-right" id="num-current"></span></a> <a href="#bm-soon"
+							class="list-group-item">即將開課 <span class="pull-right"
+							id="num-soon"></span></a> <a href="#bm-self" class="list-group-item">自學課程
+							<span class="pull-right" id="num-self"></span>
+						</a>
 					</div>
 				</div>
-				<div class="col-md-1"></div>
 			</div>
+		</div>
+	</div>
 
-			<h3 class="course-available">開課中課程</h3>
+	<div id="home" style="margin-top: 10px;">
+		<div class="container">
+			<h3 class="course-available" id="bm-current">開課中課程</h3>
 			<div class="row avail-separator" id="avail-current">
 				<!--  list current courses -->
 			</div>
 
 
-			<h3 class="course-available">即將開課</h3>
+			<h3 class="course-available" id="bm-soon">即將開課</h3>
 			<div class="row avail-separator" id="avail-soon">
 				<!-- list course comming soon-->
 			</div>
 
-
-			<h3 class="course-available">開課中行動課程</h3>
-			<div class="row avail-separator" id="avail-mobile">
-				<!-- list courses for mobile devices -->
-			</div>
-
-			<h3 class="course-available">自學課程</h3>
+			<h3 class="course-available" id="bm-self">自學課程</h3>
 			<div class="row avail-separator" id="avail-self">
 				<!-- list self-learnign courses -->
 			</div>
@@ -301,74 +328,5 @@ a:active {
 		</div>
 
 	</div>
-
-	<script>
-		jQuery(document)
-				.ready(
-						function($) {
-							var options = {
-								$AutoPlay : true, //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
-								$AutoPlaySteps : 1, //[Optional] Steps to go for each navigation request (this options applys only when slideshow disabled), the default value is 1
-								$AutoPlayInterval : 2000, //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
-								$PauseOnHover : 1, //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
-
-								$ArrowKeyNavigation : true, //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
-								$SlideEasing : $JssorEasing$.$EaseOutQuint, //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
-								$SlideDuration : 800, //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
-								$MinDragOffsetToSlide : 20, //[Optional] Minimum drag offset to trigger slide , default value is 20
-								//$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
-								//$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
-								$SlideSpacing : 0, //[Optional] Space between each slide in pixels, default value is 0
-								$DisplayPieces : 1, //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
-								$ParkingPosition : 0, //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
-								$UISearchMode : 1, //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
-								$PlayOrientation : 1, //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
-								$DragOrientation : 1, //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
-
-								$ArrowNavigatorOptions : { //[Optional] Options to specify and enable arrow navigator or not
-									$Class : $JssorArrowNavigator$, //[Requried] Class to create arrow navigator instance
-									$ChanceToShow : 2, //[Required] 0 Never, 1 Mouse Over, 2 Always
-									$AutoCenter : 2, //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
-									$Steps : 1, //[Optional] Steps to go for each navigation request, default value is 1
-									$Scale : false
-								//Scales bullets navigator or not while slider scale
-								},
-
-								$BulletNavigatorOptions : { //[Optional] Options to specify and enable navigator or not
-									$Class : $JssorBulletNavigator$, //[Required] Class to create navigator instance
-									$ChanceToShow : 2, //[Required] 0 Never, 1 Mouse Over, 2 Always
-									$AutoCenter : 1, //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
-									$Steps : 1, //[Optional] Steps to go for each navigation request, default value is 1
-									$Lanes : 1, //[Optional] Specify lanes to arrange items, default value is 1
-									$SpacingX : 12, //[Optional] Horizontal space between each item in pixel, default value is 0
-									$SpacingY : 4, //[Optional] Vertical space between each item in pixel, default value is 0
-									$Orientation : 1, //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
-									$Scale : false
-								//Scales bullets navigator or not while slider scale
-								}
-							};
-
-							//Make the element 'slider1_container' visible before initialize jssor slider.
-							$("#slider1_container").css("display", "block");
-							var jssor_slider1 = new $JssorSlider$(
-									"slider1_container", options);
-
-							//responsive code begin
-							//you can remove responsive code if you don't want the slider scales while window resizes
-							function ScaleSlider() {
-								var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
-								if (parentWidth) {
-									jssor_slider1.$ScaleWidth(parentWidth - 30);
-								} else
-									window.setTimeout(ScaleSlider, 30);
-							}
-							ScaleSlider();
-
-							$(window).bind("load", ScaleSlider);
-							$(window).bind("resize", ScaleSlider);
-							$(window).bind("orientationchange", ScaleSlider);
-							//responsive code end
-						});
-	</script>
 </body>
 </html>

@@ -10,7 +10,7 @@ public class CourseShortInfoDto {
 
   private String courseOffer;
 
-  private String courseDuration;
+  private String startDate;
 
   private String courseCategory;
 
@@ -58,12 +58,12 @@ public class CourseShortInfoDto {
     this.courseOffer = courseUniv;
   }
 
-  public String getCourseDuration() {
-    return courseDuration;
+  public String getStartDate() {
+    return startDate;
   }
 
-  public void setCourseDuration(String courseDuration) {
-    this.courseDuration = courseDuration;
+  public void setStartDate(String startDate) {
+    this.startDate = startDate;
   }
 
   public String getThumbURL() {

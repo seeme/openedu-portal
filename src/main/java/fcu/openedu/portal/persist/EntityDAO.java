@@ -58,12 +58,12 @@ public class EntityDAO<T> {
 		return lsEntities;
 	}
 	
-	public List<T> query(String sHQL)
+	public List<?> query(String sHQL)
 	{
 		Session session = mSFactory.openSession();
 		Query query = session.createQuery(sHQL);
 		@SuppressWarnings("unchecked")
-		List<T> ls = query.list();
+		List<?> ls = query.list();
 		return ls;
 	}
 
