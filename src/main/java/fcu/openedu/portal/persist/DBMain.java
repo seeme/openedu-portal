@@ -9,8 +9,9 @@ public class DBMain {
   public static void main(String[] args) {
 
     EntityDAO<Course> courseDao = new EntityDAO<Course>();
-    List<Course> ls = courseDao.query(
-        "from Course as course inner join fetch course.category cat where cat.name = '社會科學'");
+    @SuppressWarnings("unchecked")
+	List<Course> ls = (List<Course>) courseDao.query(
+        "from Course as course inner join fetch course.category cat where cat.name = '蝷暹��飛'");
 
     for (Course course : ls) {
       System.out.println(course);
@@ -49,14 +50,14 @@ public class DBMain {
      * = new ArrayList<Category>(); al.add(lsCat.get(2)); course.setCategory(al);
      * course.setCid("fcux-2015004-201509"); course.setDescription(lsDesc.get(0));
      * course.setInstructor(lsInstructors); course.setIsMobile(false); course.setName(
-     * "大學普通物理實驗 – 手作坊"); course.setOffer(schools); course.setLevel(lsLevels.get(0));
+     * "憭批飛����祕撽� �� �����"); course.setOffer(schools); course.setLevel(lsLevels.get(0));
      * course.setYear(2015);
      * 
      * Transaction t = session.getTransaction(); t.begin(); session.save(course); t.commit();
      * session.close();
      */
     /*
-     * Instructor in = new Instructor(); in.setName("周天穎"); in.setPosition("特聘教授");
+     * Instructor in = new Instructor(); in.setName("�憭拍��"); in.setPosition("������");
      * in.setSchool(schools);
      * 
      * Transaction t = session.getTransaction(); t.begin(); session.save(in); t.commit();
@@ -69,25 +70,25 @@ public class DBMain {
     // Transaction t = session.beginTransaction();
 
     /*
-     * School s = new School(); s.setName("逢甲大學"); session.persist(s);
+     * School s = new School(); s.setName("�Ｙ憭批飛"); session.persist(s);
      */
     /*
      * Availability avail = new Availability(); avail.setName("Self"); session.persist(avail);
      */
     /*
-     * Category cat = new Category(); cat.setName("自然與應用科學"); session.persist(cat);
+     * Category cat = new Category(); cat.setName("�����蝘飛"); session.persist(cat);
      */
 
     /*
      * Description desc = new Description();
-     * desc.setIntro("深入淺出地闡述空間資訊在各行各業中所扮演的重要角色，例如網路發展、能源監控、環境監測、交通管理、智慧城市等案例分析");
+     * desc.setIntro("瘛勗瘛箏��餈啁征��������平銝剜��瞍����嚗��雯頝舐撅�皞��憓皜研�漱�恣�������������");
      * desc.setObjective(
-     * "<ul><li>培養學生具備空間思維的能力。</li><li>培養學生解決空間議題的能力。</li><li>建立學生智慧生活的概念。</li></ul>");
-     * desc.setTarget("<ul><li>修習過高一地理資訊課程之高中生</li><li>對空間資訊有興趣之大專學生</li><li>一般民眾</li></ul>");
+     * "<ul><li>�擗飛����征���雁������</li><li>�擗飛��圾瘙箇征��降憿�����</li><li>撱箇�飛�����暑���艙��</li></ul>");
+     * desc.setTarget("<ul><li>靽桃���������玨蝔��葉���</li><li>撠征������閎銋之撠飛���</li><li>銝��瘞</li></ul>");
      * desc.setCharacteristic(
-     * "運用基本的空間概念作為基礎，結合空間資訊的基礎知識、整合系統與創新應用，分享最新的空間資訊技術，透過環環相扣的單元課程內容，引導學生思考空間資訊在未來的城市規劃與發展，擘劃出智慧生活的美好藍圖。"
+     * "������征���艙雿�蝷���征�����蝷霅���頂蝯梯����嚗�澈�����征�����銵����������玨蝔摰對���飛����征�����靘������撅�������暑���末�����"
      * ); desc.setSchedule(
-     * "<ul><li>第一週 課程介紹、認識地圖方位</li><li>第二週 地圖投影(坐標、投影系統)</li><li>第三週 向量式資料與網格式資料</li><li>第四週 遙感探測原理</li><li>第五週 全球定位系統</li><li>第六週 無人飛行載具(UAV)</li><li>第七週 空間資訊於防災應用</li><li>第八週 空間資訊於交通應用</li><li>第九週 空間資訊與智慧城市</li><li>第十週 空間資訊與智慧生活</li></ul>"
+     * "<ul><li>蝚砌��� 隤脩��晶�����雿�</li><li>蝚砌��� ����蔣(�����蔣蝟餌絞)</li><li>蝚砌��� �������雯�撘���</li><li>蝚砍��� ���皜砍���</li><li>蝚砌��� �����頂蝯�</li><li>蝚砍�� �鈭粹���(UAV)</li><li>蝚砌��� 蝛粹�������</li><li>蝚砍�� 蝛粹���鈭日��</li><li>蝚砌��� 蝛粹���������</li><li>蝚砍��� 蝛粹�������暑</li></ul>"
      * ); session.persist(desc); t.commit(); session.disconnect(); session.close();
      */
 
