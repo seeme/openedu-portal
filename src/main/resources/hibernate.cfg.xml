@@ -7,7 +7,7 @@
 	<session-factory>
 		<!-- Database connection settings -->
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://localhost:3306/openedu-portal?UseUnicode=true&amp;characterEncoding=utf8 </property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/openedu-portal?UseUnicode=true&amp;characterEncoding=utf8</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">root</property>
 
@@ -19,6 +19,14 @@
 		<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
 
 
+		<property name="connection.provider_class">
+			org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.idle_test_period">100</property>
+		<property name="hibernate.c3p0.max_size">100</property>
+		<property name="hibernate.c3p0.max_statements">100</property>
+		<property name="hibernate.c3p0.min_size">10</property>
+		<property name="hibernate.c3p0.timeout">180</property>
 
 		<!-- Echo all executed SQL to stdout -->
 		<property name='show_sql'>true</property>

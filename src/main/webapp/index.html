@@ -7,8 +7,6 @@
 <link rel="shortcut icon"
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
-<link rel="stylesheet" href="css/openedu.css">
-
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
 
@@ -25,22 +23,8 @@
 <link rel="stylesheet"
 	href="css/bootstrap-3.3.5/css/bootstrap-theme.min.css">
 
+<link rel="stylesheet" href="css/openedu.css">
 <style>
-a:link {
-	text-decoration: none;
-}
-
-a:visited {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
-}
 
 .course-available {
 	text-align: left;
@@ -53,6 +37,14 @@ a:active {
 	-moz-box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
 	box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
 	margin-bottom: 20px;
+	padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.course-box:hover { 
+	cursor:pointer;
+	background:#F8F8F8;
 }
 
 .course-desc {
@@ -60,7 +52,12 @@ a:active {
 }
 
 .course-name {
-	height: 60px;
+	height: 55px;
+	color:#FFAD33;
+}
+
+.course-start-date {
+	font-size: 110%;
 }
 
 .course-univ {
@@ -77,7 +74,7 @@ a:active {
 }
 
 .avail-separator {
-	padding-bottom: 50px;
+	padding-bottom: 10px;
 }
 
 .mobile-circle {
@@ -139,8 +136,8 @@ a:active {
 
 	
 	function addCourse(data) {
-		var inner = '<div class="col-md-3">'
-				+ '<div class="course-box" onmouseenter="courseOnMouseenter(this)" onmouseleave="courseOnMouseleave(this)">'
+		var inner = '<div class="col-md-3 col-sm-6">'
+				+ '<div class="course-box">'
 				+ '<div class="course-desc course-univ">' + data.courseOffer;
 
 		if (data.mobile) {
@@ -164,7 +161,7 @@ a:active {
 				+ '<div class="course-desc course-name"><a href="course.html?id='
 				+ data.id + '">' + data.courseName + '</a></div>';
 		if (data.available != 'Self') {
-			inner = inner + '<div class="course-desc">開課時間: ' + data.startDate
+			inner = inner + '<div class="course-desc course-start-date">開課時間: ' + data.startDate
 					+ '</div>';
 		}
 		inner = inner + '<div class="course-desc">'
@@ -186,14 +183,6 @@ a:active {
 			$("#avail-self").append(inner);
 			numSelf++;
 		}
-	}
-
-	function courseOnMouseenter(elm) {
-		$(elm).attr('style', 'background-color: antiquewhite;');
-	}
-
-	function courseOnMouseleave(elm) {
-		$(elm).attr('style', '');
 	}
 
 	function showCourseNumbers() {
@@ -236,14 +225,14 @@ a:active {
 	<!-- <div class="bg-primary" style="padding: 10px;">  -->
 		<div class="container">
 			<div class="row ">
-				<div class="col-md-9">
+				<div class="col-md-9 col-sm-12">
 					<ul class="pgwSlider">
 						<li><a href="course.html?id=10"></a><img src="img/slider-img/slider3.jpg" alt="台灣傳統糕餅文化與製作、創新" data-description="2015-11-06 開課"></li>
 						<li><a href="course.html?id=14"><img src="img/slider-img/slider1.jpg"  alt="創業九宮格" data-description="	2015-11-23 開課"></a></li>
 						<li><a href="course.html?id=12"><img src="img/slider-img/slider2.jpg" alt="大學普通物理實驗 – 手作坊" data-description="2015-9-28 開課"></a></li>
 					</ul>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 col-sm-12">
 					<div class="list-group">
 						<a href="#bm-current" class="list-group-item">開課中課程 <span
 							class="pull-right" id="num-current"></span></a> <a href="#bm-soon"

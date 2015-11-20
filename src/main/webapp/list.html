@@ -7,8 +7,6 @@
 <link rel="shortcut icon"
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
-<link rel="stylesheet" href="css/openedu.css">
-
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
 
@@ -21,6 +19,8 @@
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="css/bootstrap-3.3.5/css/bootstrap-theme.min.css">
+	
+<link rel="stylesheet" href="css/openedu.css">
 
 <style>
 .course-available {
@@ -34,6 +34,14 @@
 	-moz-box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
 	box-shadow: 5px 5px 5px 0px rgba(240, 237, 240, 1);
 	margin-bottom: 20px;
+	padding: 5px;
+	border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.course-box:hover { 
+	cursor:pointer;
+	background:#F8F8F8;
 }
 
 .course-desc {
@@ -41,7 +49,7 @@
 }
 
 .course-name {
-	height: 60px;
+	height: 55px;
 }
 
 .course-univ {
@@ -87,6 +95,11 @@
 	right: 3px;
 	top: 3px;
 }
+
+.course-start-date {
+	font-size: 110%;
+}
+
 </style>
 
 <script src="script/jquery-2.1.4.min.js"></script>
@@ -247,11 +260,11 @@
 								+ '<i class="fa fa-mobile fa-3x"></i></div>';
 					}
 					
-					inner = inner + '</div>' + '<div class="course-desc course-name">'
-					+ data.courseName + '</div>';
+					inner = inner + '</div>' + '<div class="course-desc course-name"><a href="course.html?id='
+					+ data.id + '">' + data.courseName + '</a></div>';
 					
 					if (data.available != 'Self') {
-						inner = inner + '<div class="course-desc">開課時間: ' + data.startDate +'</div>';
+						inner = inner + '<div class="course-desc course-start-date">開課時間: ' + data.startDate +'</div>';
 					}
 					
 					inner = inner + '<div class="course-desc">'
@@ -351,7 +364,7 @@
 
 	<div id="list" style="margin-top: 10px;">
 		<div class="container">
-			<div id="course-filters">
+			<div>
 				<div class="row">
 					<div class="col-md-3">
 						<label class="filter-label">課程分類</label>
