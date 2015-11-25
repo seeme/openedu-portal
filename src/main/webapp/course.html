@@ -58,6 +58,14 @@
 	border-radius: 5px;
 	margin-bottom: 10px;
 }
+
+#enroll-iframe{
+	border: none;
+    width: 100%;
+    height: 32px;
+    /*padding-left: 10px;
+    padding-right: 10px;*/
+}
 </style>
 
 <script src="script/jquery-2.1.4.min.js"></script>
@@ -101,7 +109,7 @@
 	});
 
 	function enableBtn(available, link) {
-		var disableBtnClass = $("#enroll-btn").attr('class') + ' disabled';
+		/*var disableBtnClass = $("#enroll-btn").attr('class') + ' disabled';
 		if (available == 'Current' || available == 'Self' || available == 'Soon') {
 			$("#enroll-btn").attr('href', link);
 		} else {
@@ -109,7 +117,9 @@
 		}
 		if (available == 'Soon') {
 			$("#enroll-btn").html('即將開課');
-		}
+		}*/
+		
+		$('#enroll-iframe').attr('src', link);
 	}
 
 	function setVideo(videoURL) {
@@ -197,9 +207,12 @@
 						<div class="col-md-10">
 							<iframe height="300" width="100%" frameborder="0" wmode="Opaque"
 								allowfullscreen="" id="videoFrame"></iframe>
-							<div style="height: 32px;">
+							<!-- <div style="height: 32px;">
 								<a href="#" class="btn btn-warning pull-right" role="button"
 									id="enroll-btn">上課去</a>
+							</div>  -->
+							<div style="height: 32px;">
+								<iframe id="enroll-iframe"></iframe>
 							</div>
 							<div style="border: 1px solid #cacaca; margin: 10px;">
 								<div class="row course-item-block course-item-block-not-last">
