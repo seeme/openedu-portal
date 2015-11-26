@@ -261,7 +261,7 @@
 					}
 					
 					inner = inner + '</div>' + '<div class="course-desc course-name"><a href="course.html?id='
-					+ data.id + '">' + data.courseName + '</a></div>';
+					+ data.id + '" title="' + data.courseName  + '">' + formatCourseName(data.courseName) + '</a></div>';
 					
 					if (data.available != 'Self') {
 						inner = inner + '<div class="course-desc course-start-date">開課時間: ' + data.startDate +'</div>';
@@ -334,6 +334,15 @@
 		}
 		return '';
 	}
+	
+	function formatCourseName(courseName){
+		if(courseName.length > 25){
+			var sub = courseName.substring(0, 25);
+			return sub + '...';
+		}
+		return courseName;
+	}
+	
 </script>
 
 </head>
