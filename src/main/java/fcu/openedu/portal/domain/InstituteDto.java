@@ -2,13 +2,13 @@ package fcu.openedu.portal.domain;
 
 import java.io.Serializable;
 import java.text.Collator;
-import java.util.Comparator;
+import java.util.Locale;
 
 @SuppressWarnings("serial")
 public class InstituteDto implements Serializable, Comparable<InstituteDto> {
   
-  @SuppressWarnings("rawtypes")
-  private final static Comparator TW_COMPARE = Collator.getInstance(java.util.Locale.CHINESE);
+
+  private final static Collator collator =  Collator.getInstance(Locale.TRADITIONAL_CHINESE); 
 
   private int id;
 
@@ -30,11 +30,10 @@ public class InstituteDto implements Serializable, Comparable<InstituteDto> {
     this.name = name;
   }
 
-  @SuppressWarnings("unchecked")
+  
   @Override
   public int compareTo(InstituteDto o) {
-    return getName().compareTo(o.getName());
+    return collator.compare(this.getName(), o.getName());
   }
-
 
 }
