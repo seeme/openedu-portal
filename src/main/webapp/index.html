@@ -7,11 +7,14 @@
 <link rel="shortcut icon"
 	href="https://www.openedu.tw/wp-content/uploads/2014/07/favicon.png">
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
-
 <!-- CSS for image slider -->
 <link rel="stylesheet" href="css/pgwslider.min.css">
+
+<!-- CSS for RSS Feed -->
+<link rel="stylesheet" href="css/jquery.zrssfeed.css">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap-3.3.5/css/bootstrap.min.css">
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -96,12 +99,17 @@
 <script src="css/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <!-- Java script for image slider -->
 <script src="script/pgwslider.min.js"></script>
+<script src="script/jquery.zrssfeed.js"></script>
 <script>
 	var numCurrent = 0;
 	var numSoon = 0;
 	var numSelf = 0;
 
 	jQuery(document).ready(function($) {
+		
+		 $('#rss').rssfeed('http://copeneduc.org/feed/', {
+			 limit: 2, header: false, content: false,  offset:0, titletag:'h5', dateformat:'yyyy/MM/dd', linktarget:'_blank'
+		   });
 
 		//Used to set the offset when jumping to a bookmark target
 		var shiftWindow = function() {
@@ -200,8 +208,6 @@
 	}
 </script>
 
-
-
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -241,14 +247,7 @@
 					</ul>
 				</div>
 				<div class="col-md-3 col-sm-12">
-					<div class="list-group">
-						<a href="#bm-current" class="list-group-item">開課中課程 <span
-							class="pull-right" id="num-current"></span></a> <a href="#bm-soon"
-							class="list-group-item">即將開課 <span class="pull-right"
-							id="num-soon"></span></a> <a href="#bm-self" class="list-group-item">自學課程
-							<span class="pull-right" id="num-self"></span>
-						</a>
-					</div>
+					<div id="rss"></div>		
 				</div>
 			</div>
 		</div>
