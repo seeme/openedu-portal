@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -29,18 +30,19 @@ public class CategoryService {
 		return sEcho;
 	}
 
-	@Path("/list")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCategories() {
+  @Path("/list")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getCategories() {
 
-		List<Category> lsMCats = mCategory.findAll(Category.class);
-		List<CategoryDto> lsCats = getCategoryDtos(lsMCats);
+    List<Category> lsMCats = mCategory.findAll(Category.class);
+    List<CategoryDto> lsCats = getCategoryDtos(lsMCats);
 
-		Response rs = Response.ok().entity(new GenericEntity<List<CategoryDto>>(lsCats) {
-		}).build();
-		return rs;
-	}
+    Response rs = Response.ok().entity(new GenericEntity<List<CategoryDto>>(lsCats) {})
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE.withCharset("utf-8"))
+        .build();
+    return rs;
+  }
 
 	private List<CategoryDto> getCategoryDtos(List<Category> lsMCats) {
 		List<CategoryDto> lsCats = Lists.newArrayList();

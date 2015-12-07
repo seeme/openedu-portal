@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -51,7 +52,9 @@ public class CourseService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getCourseShortInfo() {
     List<CourseShortInfoDto> ls = getAllCourses();
-    Response rs = Response.ok().entity(new GenericEntity<List<CourseShortInfoDto>>(ls) {}).build();
+    Response rs = Response.ok().entity(new GenericEntity<List<CourseShortInfoDto>>(ls) {})
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE.withCharset("utf-8"))
+        .build();
     return rs;
   }
 
@@ -121,11 +124,16 @@ public class CourseService {
   @Path("/{id}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public CourseCompleteInfoDto getCourseInfo(@PathParam("id") long id) {
+  public Response getCourseInfo(@PathParam("id") long id) {
     Course mCourse = mCourseDao.findById(Course.class, Long.valueOf(id));
     CourseCompleteInfoDto dCourse = transformModelToCompleteInfoDto(mCourse);
-    return dCourse;
+    Response rs = Response.ok().entity(new GenericEntity<CourseCompleteInfoDto>(dCourse) {})
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE.withCharset("utf-8"))
+        .build();
+    return rs;
+  
   }
+  
 
   private CourseCompleteInfoDto transformModelToCompleteInfoDto(Course mCourse) {
     CourseCompleteInfoDto dCourse = new CourseCompleteInfoDto();
@@ -171,7 +179,7 @@ public class CourseService {
   @Path("/query")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<CourseShortInfoDto> queryCourseInfo(@QueryParam("category") String sCategoryId,
+  public Response queryCourseInfo(@QueryParam("category") String sCategoryId,
       @QueryParam("institute") String sInstituteId, @QueryParam("availability") String sAvail,
       @QueryParam("keyword") String sKeyword, @QueryParam("mobile") String sMobile) {
     List<CourseShortInfoDto> lsCourseDtos = Lists.newArrayList();
@@ -181,7 +189,13 @@ public class CourseService {
     if (CollectionUtils.isNotEmpty(lsMCourses))
       for (Course course : lsMCourses)
         lsCourseDtos.add(transformModelToShortInfoDto(course));
-    return lsCourseDtos;
+    
+    
+    Response rs = Response.ok().entity(new GenericEntity<List<CourseShortInfoDto>>(lsCourseDtos) {})
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE.withCharset("utf-8"))
+        .build();
+    
+    return rs;
   }
 
   private String buildHQL(String sCategoryId, String sInstituteId, String sAvail, String sKeyword,
