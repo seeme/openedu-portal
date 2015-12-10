@@ -41,6 +41,10 @@ public class CourseService {
 
   private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+  private static final String DISABLE_AVAILABILITY = "Disable";
+
+  private static final boolean FILTER_OUT_DISBALE_COURSE = true;
+
   @GET
   @Produces(MediaType.TEXT_PLAIN)
   public String getHello() {
@@ -63,7 +67,19 @@ public class CourseService {
     List<Course> lsModels = mCourseDao.findAll(Course.class);
     for (Course course : lsModels)
       lsCourses.add(transformModelToShortInfoDto(course));
+
+    if (FILTER_OUT_DISBALE_COURSE)
+      lsCourses = getEnableCourses(lsCourses);
     return lsCourses;
+  }
+
+  private List<CourseShortInfoDto> getEnableCourses(List<CourseShortInfoDto> lsCourses) {
+    List<CourseShortInfoDto> lsEnableCourses = Lists.newArrayList();
+    for (CourseShortInfoDto course : lsCourses) {
+      if (!course.getAvailable().equals(DISABLE_AVAILABILITY))
+        lsEnableCourses.add(course);
+    }
+    return lsEnableCourses;
   }
 
   private CourseShortInfoDto transformModelToShortInfoDto(Course course) {
@@ -76,6 +92,7 @@ public class CourseService {
     aDto.setId(String.valueOf(course.getId()));
     aDto.setThumbURL(course.getThumbURL());
     aDto.setMobile(course.isIsMobile());
+    aDto.setCid(course.getCid());
     return aDto;
   }
 
@@ -131,9 +148,9 @@ public class CourseService {
         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE.withCharset("utf-8"))
         .build();
     return rs;
-  
+
   }
-  
+
 
   private CourseCompleteInfoDto transformModelToCompleteInfoDto(Course mCourse) {
     CourseCompleteInfoDto dCourse = new CourseCompleteInfoDto();
@@ -159,19 +176,17 @@ public class CourseService {
     dCourse.setTranscript(getTranscript(mCourse));
     return dCourse;
   }
-  
-  private String getLanguage(Course course)
-  {
+
+  private String getLanguage(Course course) {
     Language lang = course.getLanguage();
-    if(lang != null)
+    if (lang != null)
       return Strings.nullToEmpty(lang.getName());
     return "";
   }
-  
-  private String getTranscript(Course course)
-  {
+
+  private String getTranscript(Course course) {
     Transcript trnspt = course.getTranscript();
-    if(trnspt != null)
+    if (trnspt != null)
       return Strings.nullToEmpty(trnspt.getName());
     return "";
   }
@@ -189,12 +204,12 @@ public class CourseService {
     if (CollectionUtils.isNotEmpty(lsMCourses))
       for (Course course : lsMCourses)
         lsCourseDtos.add(transformModelToShortInfoDto(course));
-    
-    
+
+
     Response rs = Response.ok().entity(new GenericEntity<List<CourseShortInfoDto>>(lsCourseDtos) {})
         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE.withCharset("utf-8"))
         .build();
-    
+
     return rs;
   }
 
